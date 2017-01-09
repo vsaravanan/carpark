@@ -1,0 +1,50 @@
+WEBVTT
+
+0:00:02.320 --> 0:00:02.980
+Hello Viewers,
+
+0:00:02.980 --> 0:00:09.389
+This is one of the POC web application,  which
+I have developed for one of the Automative
+
+0:00:09.389 --> 0:00:13.549
+corporate.
+This is developed using Spring framework and
+
+0:00:13.549 --> 0:00:18.429
+Kendo UI.
+And in the backend,  I am using Glassfish web
+
+0:00:18.429 --> 0:00:22.619
+server and Postgresql DB server.
+
+0:00:22.619 --> 0:00:29.029
+This is a simple login screen.
+Of course,  I am using Spring Security in this
+
+0:00:29.029 --> 0:00:29.720
+web.
+
+0:00:29.720 --> 0:00:36.239
+As you can see few sample user ids listed
+here to login and test
+
+0:00:36.239 --> 0:00:43.239
+At the bottom you can see an icon for Android
+demo application which is .apk file which
+
+0:00:43.239 --> 0:00:51.559
+you can download and install into your mobile
+phone and browse as a
+
+0:00:51.559 --> 0:00:56.120
+external user.
+External user can reserve the carpark and
+
+0:00:56.120 --> 0:01:05.420
+view his booking slots from his mobile.
+Also I am going to show you the demo on how his
+
+0:01:05.420 --> 0:01:11.930
+reservations are reflected into the POC web
+application.

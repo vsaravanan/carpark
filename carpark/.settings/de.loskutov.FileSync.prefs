@@ -1,0 +1,8 @@
+WARNING=DO NOT MODIFY THIS FILE IF YOU DON'T UNDERSTAND
+defaultDestination=C\:/Java/glassfish/glassfish/domains/domain1/eclipseApps/carpark/WEB-INF
+defaultVariables=
+eclipse.preferences.version=1
+includeTeamPrivateFiles=false
+map|0=build|,|,|,|,
+map|1=src/main/webapp|C\:/Java/glassfish/glassfish/domains/domain1/eclipseApps/carpark|,|,|,
+useCurrentDateForDestinationFiles=false

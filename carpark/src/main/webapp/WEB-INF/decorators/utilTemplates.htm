@@ -1,0 +1,40 @@
+        <!-- See http://twitter.github.com/bootstrap/scaffolding.html#responsive -->
+
+
+
+<input id="formMsg" type="hidden" value="${search.formMsg}"    />
+<input id="formErr" type="hidden" value="${search.formErr}"    />
+
+
+	<script type="text/kendo-template" id="message">
+		<div class="k-widget k-tooltip k-tooltip-validation k-invalid-msg field-validation-error" style="margin: 0.5em; display: block; " data-for="#=field#" data-valmsg-for="#=field#" id="#=field#_validationMessage">
+		<span class="k-icon k-warning"> </span>#=message#<div class="k-callout k-callout-n"></div></div>
+	</script>
+
+	<script id="errorTemplate" type="text/x-kendo-template">
+		<div class="wrong-pass">
+			<img src="${root}png/error-icon.png" />
+			<h3>#= title #</h3>
+			<h5>&nbsp;&nbsp;#= message #</h5>
+		</div>
+	</script>
+
+	<script id="successTemplate" type="text/x-kendo-template">
+		<div class="upload-success">
+			<img src="${root}png/success-icon.png" />
+			<h3>#= message #</h3>
+		</div>
+	</script>
+
+	<script id="vehicleDeleteWindow" type="text/x-kendo-template" >
+		Delete id <strong>#= id #</strong> ? </p>
+		Deleting vehicleNo : #= vehicleNo # ,  iuNo : #= iuNo #. </p>
+		<button class="k-button" id="yesButton">Yes</button>
+		<button class="k-button" id="noButton"> No</button>
+	</script>
+
+	<script id="deleteWindow" type="text/x-kendo-template" >
+		Delete id <strong>#= id #</strong> ? </p>
+		<button class="k-button" id="yesButton">Yes</button>
+		<button class="k-button" id="noButton"> No</button>
+	</script>

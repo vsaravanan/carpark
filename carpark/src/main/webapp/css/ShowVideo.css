@@ -1,0 +1,35 @@
+
+body {
+
+		background: -moz-linear-gradient(90deg, #284AC7 0%, #284AC7 15%, #1CBBFF 62%, #1CBBFF 100%); /* ff3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1CBBFF), color-stop(38%, #1CBBFF), color-stop(85%, #284AC7), color-stop(100%, #284AC7)); /* safari4+,chrome */
+		background: -webkit-linear-gradient(90deg, #284AC7 0%, #284AC7 15%, #1CBBFF 62%, #1CBBFF 100%); /* safari5.1+,chrome10+ */
+		background: -o-linear-gradient(90deg, #284AC7 0%, #284AC7 15%, #1CBBFF 62%, #1CBBFF 100%); /* opera 11.10+ */
+		background: -ms-linear-gradient(90deg, #284AC7 0%, #284AC7 15%, #1CBBFF 62%, #1CBBFF 100%); /* ie10+ */
+		background: linear-gradient(0deg, #284AC7 0%, #284AC7 15%, #1CBBFF 62%, #1CBBFF 100%); /* w3c */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1CBBFF', endColorstr='#284AC7',GradientType=0 ); /* ie6-9 */
+		padding-top: 20px;
+        padding-bottom: 20px;
+/*  		background-color: #eee; font: helvetica;   */      
+}
+
+.progressBar
+{
+    position: relative;
+    width: 100%;
+    height: 10px;
+    backgroud-color: #000; 
+}
+.timeBar
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10;
+    height: 100%;
+    background-color: #ccc;
+}
+
+button{
+  margin: 10px;
+}

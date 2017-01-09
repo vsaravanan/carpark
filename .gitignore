@@ -1,0 +1,15 @@
+/build
+build
+gradle
+.gradle
+*.old
+gradlew*
+clean.bat
+bin
+target
+test
+*.sig
+.metadata
+RemoteSystemsTempFiles
+Servers
+zips

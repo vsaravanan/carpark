@@ -1,0 +1,1309 @@
+${user.id}
+
+<%
+				StringBuilder sb = new StringBuilder();
+				sb.append(" [");
+				sb.append("\n\t request.getContextPath(): ").append(request.getContextPath());
+				sb.append("\n\t request.getLocalAddr(): ").append(request.getLocalAddr());
+				sb.append("\n\t request.getLocalName(): ").append(request.getLocalName());
+				sb.append("\n\t request.getLocalPort(): ").append(request.getLocalPort());
+				sb.append("\n\t request.getPathInfo(): ").append(request.getPathInfo());
+				sb.append("\n\t request.getPathTranslated(): ").append(request.getPathTranslated());
+				sb.append("\n\t request.getProtocol(): ").append(request.getProtocol());
+				sb.append("\n\t request.getRemoteAddr(): ").append(request.getRemoteAddr());
+				sb.append("\n\t request.getRemoteHost(): ").append(request.getRemoteHost());
+				sb.append("\n\t request.getRemotePort(): ").append(request.getRemotePort());
+				sb.append("\n\t request.getRequestURI(): ").append(request.getRequestURI());
+				sb.append("\n\t request.getRequestURL(): ").append(request.getRequestURL());
+				sb.append("\n\t request.getScheme(): " ).append(request.getScheme());
+				sb.append("\n\t request.getServerName(): ").append(request.getServerName());
+				sb.append("\n\t request.getServerPort(): ").append(request.getServerPort());
+				sb.append("\n\t request.getServletPath(): ").append(request.getServletPath());
+				sb.append("\n]");
+				System.out.println(sb.toString());
+				%>
+
+
+				package conti.ies.carpark.config;
+
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.InitBinder;
+
+@ControllerAdvice
+@Controller
+public class AppBindingInitializer {
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+
+}
+
+
+<%
+	java.util.Enumeration<String> reqEnum = request.getAttributeNames();
+	while (reqEnum.hasMoreElements()) {
+	String s = reqEnum.nextElement();
+	out.print(s);
+	out.println("==" + request.getAttribute(s));}
+%>
+
+
+
+
+	 /*@InitBinder -- it should be commented to have both Hibernate validator + spring validator
+	 protected void initBinder(WebDataBinder binder) {
+	 	binder.setMessageCodesResolver(new MessageCodesResolver());
+	 	binder.setValidator(new UserFormValidator());
+	 }*/
+
+
+//	  ServletRequestDataBinder binder) throws Exception
+//	{
+//	  // bind empty strings as null
+//	  binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+//	}
+
+
+//
+//	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
+//	public String saveUser(@Valid @ModelAttribute User user, BindingResult result) {
+//		// @Valid User is to activate hibernate validator
+//		// when I use @Valid, I dont need to annotate with @ModelAttribute
+//		// also removed 3rd parameter Errors errors
+//
+//		//run Spring validator manually
+//		//new UserFormValidator().validate(user, result);
+//	     if(result.hasErrors()) {
+//	            return "newUser";
+//	        }
+//		logger.info("saving user ..." );
+//		userDao.saveOrUpdate(user);
+//		return "listUser";
+//	}
+
+
+//@InitBinder
+//public void bindingPreparation(WebDataBinder binder) {
+//  DateFormat dateFormat = new SimpleDateFormat("MMM d, YYYY");
+//  CustomDateEditor orderDateEditor = new CustomDateEditor(dateFormat, true);
+//  binder.registerCustomEditor(Date.class, orderDateEditor);
+//}
+
+
+//Map<String, Object> myModel = new HashMap<String, Object>();
+//myModel.put("user", user);
+//return new ModelAndView("UserForm",myModel);
+
+
+
+//System.out.println("--- Model data ---");
+//Map modelMap = model.asMap();
+//for (Object modelKey : modelMap.keySet()) {
+//Object modelValue = modelMap.get(modelKey);
+//System.out.println(modelKey + " -- " + modelValue);
+//}
+//
+//System.out.println("=== Request data ===");
+//
+//Enumeration<String> reqEnum = request.getAttributeNames();
+//while (reqEnum.hasMoreElements()) {
+//String s = reqEnum.nextElement();
+//System.out.println(s);
+//System.out.println("==" + request.getAttribute(s));
+//}
+//while (reqEnum.hasMoreElements()) {
+//String s = reqEnum.nextElement();
+//System.out.println(s);
+//}
+
+
+//	@RequestMapping("/listUser")
+//	public ModelAndView handleRequest() throws Exception {
+//		logger.info("listing user ...");
+//		List<User> listUsers = userDao.list();
+//		ModelAndView model = new ModelAndView("UserList");
+//		model.addObject("userList", listUsers);
+//		return model;
+//	}
+
+//	@RequestMapping(value = "/newUser", method = RequestMethod.GET)
+//	public ModelAndView newUser() {
+//		ModelAndView model = new ModelAndView("UserForm");
+//		model.addObject("user", new User());
+//		return model;
+//	}
+
+//	@RequestMapping(value = "/editUser", method = RequestMethod.GET)
+//	public ModelAndView editUser(HttpServletRequest request) {
+//		Integer userId =  Integer.valueOf(request.getParameter("id"));
+//		User user = userDao.get(userId);
+//		ModelAndView model = new ModelAndView("UserForm");
+//		model.addObject("user", user);
+//		return model;
+//	}
+
+
+//	@RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
+//	public String deleteUser(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+//		Integer userId =  Integer.valueOf(request.getParameter("id")) ;
+//		userDao.delete(userId);
+//		redirectAttributes.addAttribute("msg", "User " + userId + " deleted");
+//		return "redirect:/listUser";
+//	}
+
+
+//		userDao.saveOrUpdate(user);
+//		return "redirect:/Users";
+
+
+						<a href="edit/${user.id}">Edit</a>  <%-- "editUser?id=${user.id}"  "@{'/product/'} + ${product.id}" --%>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="delete/${user.id}">Delete</a> <%-- "deleteUser?id=${user.id}" @{'/user/delete/'} + ${user.id}--%>
+
+
+						<form:option value="" label="...."   />
+
+
+//		String[] columnsList = columns.trim().split("\\s*,\\s*");
+//		//List<String> columnsList = Arrays.asList(columns.split("\\s*,\\s*"));
+//		String newColumnsList = "";
+//		for (String col : columnsList) {
+//			newColumnsList += newColumnsList.equals("") ? "": ", ";
+//			newColumnsList += "a." + col;
+//		}
+//		System.out.println(newColumnsList); // new  conti.ies.carpark.model.LookUp( )
+
+
+
+//		Query query0 =  getSession().createQuery(
+//				"select  " + columns + "  from " +
+//							entityClass.getName() + " a" );
+//
+//		List<Object[]> list0  = query0.list();
+//		for (Object[] arr : list0)
+//		{
+//			System.out.println("1..."+Arrays.toString(arr));
+//			for (Object col : arr)
+//			{
+//				System.out.println("2..."+ col);
+//			}
+//		}
+//
+//        SQLQuery query = getSession().createSQLQuery(sql);
+//        query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+//        List data = query.list();
+//
+//        for(Object object : data)
+//        {
+//           Map row = (Map)object;
+//           System.out.print("3...vehicleid: " + row.get("vehicleid"));
+//           System.out.println(", 4...vehicleNo: " + row.get("vehicleno"));
+//        }
+
+//      query3.addScalar("id", new IntegerType());
+//      query3.addScalar("vehicleNo", new StringType());
+
+
+//      SQLQuery query2 = getSession().createSQLQuery(sql);
+//      query2.addEntity(LookUp.class); // no identifier. define @Entity and @Table
+//      List<Entity> results = query2.list();
+//      for (Entity entity : results) {
+//          System.out.println(entity);
+//      }
+
+
+			try {
+
+			}
+			catch(ConstraintViolationException e) {
+				System.out.println("MVS handled ConstraintViolationException");
+				System.out.println("MVS Unable to delete " + entityClass.getName() + " record id : " + id + " \n" +
+						e.getConstraintName() + "\n " +
+						e.getSQLException() + "\n ")
+						;
+				throw e;
+			}
+			catch(DataIntegrityViolationException e) {
+				System.out.println("MVS handled DataIntegrityViolationException");
+				System.out.println("MVS Unable to delete " + entityClass.getName() + " record id : " + id + " \n" )
+						;
+				throw e;
+			}
+
+		}
+		return Cons.SUCCESS;
+
+
+		if ( ! retMsg.equals(Cons.SUCCESS))
+			request.setAttribute("message",retMsg);
+
+				@ExceptionHandler(value = ConstraintViolationException.class)
+	public ModelAndView ConstraintViolationExceptionHandler(HttpServletRequest req, ConstraintViolationException e) throws ConstraintViolationException {
+
+		ModelAndView mav = new ModelAndView();
+        mav.addObject("datetime", new Date());
+		mav.addObject("url", "cons " + req.getRequestURL());
+		mav.addObject("exception", e);
+		mav.setViewName(DEFAULT_ERROR_VIEW);
+		return mav;
+
+	}
+
+
+	@ExceptionHandler(value = DataIntegrityViolationException.class)
+	public ModelAndView DataIntegrityViolationExceptionHandler(HttpServletRequest req, DataIntegrityViolationException e) throws DataIntegrityViolationException {
+
+		ModelAndView mav = new ModelAndView();
+        mav.addObject("datetime", new Date());
+		mav.addObject("url", "DatIntegrity " + req.getRequestURL());
+		mav.addObject("exception", e);
+		mav.setViewName(DEFAULT_ERROR_VIEW);
+		return mav;
+
+	}
+
+
+//    	request.setAttribute("exceptionMsg",
+//    				" <font color=\"red\"> Child record exists for Vehicle id : " + id + " </font> <br> " +
+//    				" Check the child pages Users or Parking. <br> " +
+//    				" <h4> Delete them first </h4> <br><br>"
+//    			);
+
+    	//String childRecordExists = messageSource.getMessage("errorMsg.childRecordExists", new Object[] { " Vehicle id : " + id, "Users or Parking."}, null);
+
+errorMsg.childRecordExists=Child record exists for{0} <br>\
+Check the child pages {1}. <br> \
+Delete them first
+
+
+
+        <script type="text/javascript">
+        $(document).ready(function() {
+
+           	/*
+        	$('a[data-toggle=modal], button[data-toggle=modal]').click(function () {
+
+        	    var data_id = '';
+
+        	    if (typeof $(this).data('id') !== 'undefined') {
+
+        	      data_id = $(this).data('id');
+        	    }
+        	    data_id ="location.href='http://localhost:9090/carpark/vehicle/delete/" + data_id + "'"; // attr('onclick',''); //
+        	    alert(data_id);
+
+        	    //$('#entityId').attr('onclick','');
+        	    //$('#entityId').click("location.href='delete/" + data_id + "'");
+        	    //alert($('#entityId').attr('onclick'));
+        	    $('#entityId').setAttribute('onclick',data_id);
+        	  });
+
+
+         	//triggered when modal is about to be shown
+        	$('#myModal').on('show.bs.modal', function(e) {
+
+        	    //get data-id attribute of the clicked element
+        	    alert($(e.relatedTarget).name);
+        	    var entityId = $(e.relatedTarget).data('entity-id');
+
+        	    //populate the textbox
+        	    $(e.currentTarget).find('button[name="entityId"]').attr('onclick','').click("location.href='delete/" + entityId + "'");
+        	});
+
+        var deleteLink = $("button:contains(xyz')");
+        $(deleteLink).click(function(event) {
+            var conBox = confirm("Are you sure ?");
+            alert($(event.target).attr("href") );
+            if(conBox){
+            $.ajax({
+                url: $(event.target).attr("href"),
+                type: "DELETE",
+                data: JSON.stringify(arr), //arr is an array of logins you want to delete
+
+
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("Accept", "application/json");
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                },
+
+                success: function(data) {
+                    location.reload(true); //or do whatever you want on success
+                    var tr = $(event.target).closest("tr");
+                    tr.css("background-color","#000000");
+                    tr.fadeIn(1000).fadeOut(200, function(){
+                    tr.remove();})
+                }
+            });
+            } else {
+                //event.preventDefault();
+            	$(this).dialog("close");
+            }
+            event.preventDefault();
+          }); */
+        });
+        </script>
+
+
+
+//		MapEntity me = new MapEntity();
+//		me.setMe(models);
+		//System.out.println("models :" + models.toString());
+
+	    GsonBuilder builder = new GsonBuilder();
+	    Gson gson = builder.create();
+//	    System.out.println("me : " + gson.toJson(me));
+
+	    System.out.println("models : " + gson.toJson(models));
+//	    GenericList<Vehicle> genList = new GenericList<>();
+
+	    Type typeOfListOfVehicle = new TypeToken<List<Vehicle>>(){}.getType();
+
+	    ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
+	    vehicles = gson.fromJson(gson.toJson(models), typeOfListOfVehicle);
+	    System.out.println("vehicles 1 : " + gson.toJson(vehicles));
+
+//		for (Map<String, Object> model : models) {
+//	    	Vehicle vehicle = new Vehicle();
+//	    	vehicle.setId((Integer) model.get("id"));
+//	    	vehicle.setVehicleNo(model.get("vehicleNo").toString());
+//	    	vehicle.setIuNo(model.get("iuNo").toString());
+//	    	vehicles.add(vehicle);
+//	    }
+//	    System.out.println("vehicles 2 : " + gson.toJson(vehicles));
+
+
+
+
+
+<script type="text/javascript">
+
+
+
+
+
+/*             	var grid = $("#grid").data("kendoGrid");
+            	var trs = e.tbody.find('tr').each(function()
+	            var item = grid.dataItem($(this));
+	              if( item.hasUser) {
+	                $(this).find('.k-grid-myDelete').remove(); //.k-grid-delete
+	              } */
+
+/*         	  if(confirm('delete : ' +
+dataItem.id + "  " + dataItem.vehicleNo +
+dataItem.iuNo)) {
+var grid = $("#grid").data("kendoGrid");
+grid.dataSource.remove(dataItem);
+grid.dataSource.sync();
+} */
+
+/*             $("#grid tbody tr .k-grid-delete").each(function () {
+
+var currentDataItem = $("#grid").data("kendoGrid").dataItem($(this).closest("tr"));
+if (currentDataItem.hasUser) {
+    $(this).remove();
+}
+}) */
+
+
+
+
+    /*
+
+            {
+            	var myErrors = "";
+				for (var error in args.errors) {
+					myErrors += "Error at " + error + " : " + args.errors[error].errors + "\n";
+				}
+            	alert(myErrors + "\nPlease use popup for easy editing.");
+            }
+            else
+
+    complete: function (jqXhr, textStatus) {
+        if (textStatus == 'success') {
+            var result = jqXhr.responseText;
+            // read your result
+            // open your dialog
+
+    	consMsg("cons " + result); // interesting
+    	popMsg("pop " + result);
+
+    	showMsg("msg " + result);
+    	showWarn("warn " + result);
+    	kendoConsole.log("ken " + result);
+        }
+
+        function onChange(arg) {
+            var selected = $.map(this.select(), function(item) {
+                return $(item).text();
+            });
+
+            //kendoConsole.log("Selected: " + selected.length + " item(s), [" + selected.join(", ") + "]");
+
+
+                          {name: "destroy",
+                                click: function(e){  //add a click event listener on the delete button
+                                    var tr = $(e.target).closest("tr"); //get the row for deletion
+                                    var data = this.dataItem(tr); //get the row data so it can be referred later
+                                    if( data.hasUser) {
+                                    	alert("This data has child record. Unable to delete. Delete child");
+                                    	e.preventDefault();
+                                    }
+                                    else
+                                    {
+	                                    window.content(windowTemplate(data)); //send the row data object to the template and render it
+	                                    window.open().center();
+
+	                                    $("#yesButton").click(function(){
+	                                    	window.close();
+											var g = $("#grid").data('kendoGrid');
+	                                        g.dataSource.remove(data);  //prepare a "destroy" request
+	                                        g.dataSource.sync();
+
+	                                    })
+
+	                                    $("#noButton").click(function(){
+	                                    	window.close();
+	                                    })
+
+                                    }
+                                }
+                            }
+
+
+        */
+
+
+        /*         $("#grid tbody tr .k-grid-delete").each(function () {
+
+    	var currentDataItem = $("#grid").data("kendoGrid").dataItem($(this).closest("tr"));
+    	if (currentDataItem.hasUser) {
+    	    $(this).remove();
+
+    	}
+}
+    	     */
+
+
+/* 			var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var grid = e;
+        //var trs = e.tbody.find('tr').each(function(){
+          //var item = grid.dataItem($(this));
+          if( dataItem.hasUser) {
+
+      	    //var grid = $("#grid").data("kendoGrid");
+
+              grid.find('.k-grid-myDelete').hide();
+              grid.find('.k-grid-myDelete').remove();
+          }
+           */
+
+            //});
+
+           /*              dataBound: function (){
+           var grid = this;
+           var trs = this.tbody.find('tr').each(function(){
+             var item = grid.dataItem($(this));
+             if( item.hasUser) {
+                 $(this).find('.k-grid-myDelete').hide();
+           	  $(this).find('.k-grid-myDelete').remove();
+             }
+
+           });
+         }, */
+</script>
+
+
+
+/*                     parse: function(response) {
+                        $.each(response,function(idx,elem) {
+                            if(elem.exitTime) {
+                                elem.exitTime =  new Date(elem.exitTime);
+                            }
+                        });
+                        return response
+                    }, */
+
+
+
+//										if (likes.containsKey(chFltrs.getOperator())) {
+//											strCondition = likes.get(chFltrs.getOperator()).replace("<value>", myVal);
+//										}
+
+
+//									if (myOpr != null)
+//									{
+//										strCondition = myOpr + myVal;
+//										System.out.println("MVS 4 int  ");
+//
+//									}
+//									else if (myOpr == null)
+//									{
+//
+////										System.out.println("MVS dateRange " + dateRange);
+//
+//										if (dateRange.containsKey(chFltrs.getOperator())) {
+////											System.out.println("MVS dateRange.getchFltrs.getOperator() " + dateRange.get(chFltrs.getOperator()));
+//											myOpr = dateRange.get(chFltrs.getOperator());
+//										}
+//									}
+
+								case "bool":
+//									if (myOpr != null) {
+//										if (myVal.equals("true"))
+//											strCondition = myOpr + "'t'";
+//										else if (myVal.equals("false"))
+//											strCondition = myOpr + "'f'";
+//									}
+									break;
+
+
+//									if (myOpr == null)
+//									{
+//
+////										System.out.println("MVS dateRange " + dateRange);
+//
+//										if (dateRange.containsKey(chFltrs.getOperator())) {
+////											System.out.println("MVS dateRange.getchFltrs.getOperator() " + dateRange.get(chFltrs.getOperator()));
+//											myOpr = dateRange.get(chFltrs.getOperator());
+//										}
+//									}
+//									System.out.println("MVS 2  myOpr " + myOpr);
+
+									//if (myOpr != null)
+
+
+									/*	class mapLkp
+	{
+		private String key;
+		private String value;
+		public String getKey() {
+			return key;
+		}
+		public mapLkp(String key, String value) {
+			super();
+			this.key = key;
+			this.value = value;
+		}
+		public void setKey(String key) {
+			this.key = key;
+		}
+		public String getValue() {
+			return value;
+		}
+		public void setValue(String value) {
+			this.value = value;
+		}
+
+	}*/
+
+
+
+			//Map<String, String> map = adhocDao.mapLkp("SELECT slotid,  slotid || ' | ' || location || ' | ' || level || ' | ' || slotno slotName FROM ParkingSlot");
+
+//		for (Map.Entry<String, String> entry : map.entrySet()) {
+//
+//			System.out.println("Key : " + entry.getKey() + " Value : " + entry.getValue());
+//		}
+//
+
+
+#= kendo.toString(entryDate,'dd-MMM-yyyy') #   | #= kendo.toString(entryTime,'HH:mm') # |  #= kendo.toString(exitTime,'HH:mm') #
+
+// editor: parkingSlotDropDownEditor,
+// kendo.template($("#parkingSlotTemplate").html())
+
+
+//  $('<input required data-text-field="id" data-value-field="slotId" data-bind="value:' + options.field + '"/>')
+
+
+         function parkingSlotDropDownEditor(container, options) {
+        	 var crudServiceBaseUrl = "${root}slotUsed";
+             $('<input name="any" data-bind="value:' + options.field + '"/>')
+             .appendTo(container).kendoDropDownList({
+            	 autoBind: false,
+               valueTemplate: $("#parkingSlotTemplate").html(),
+               template: $("#parkingSlotTemplate").html(),
+               dataTextField: "slotId",
+               dataValueField: "slotId",
+               height: 1000,
+               dataSource: {
+                   transport: {
+
+                       read:  {
+                           url: crudServiceBaseUrl + "/listParkingSlot",
+                           contentType: "application/json",
+                           dataType: "json"
+                       }
+                   }
+               }
+           });
+        }
+
+
+/*
+                    filterable: {
+                        cell: {
+                            dataSource: new kendo.data.DataSource({
+                                data: [
+                                    { status: "Open" },
+                                    { status: "Reserved" },
+                                    { status: "Parked" },
+                                    { status: "Inactive" }
+                                ]
+                            }),
+                            dataTextField: "filterStatus"
+                        }
+                    }
+                    */
+
+
+    filterable: {
+      ui: function(element) {
+        element.kendoDateTimePicker(); // initialize a Kendo UI DateTimePicker
+      }
+    }
+
+
+    				{
+				    title: "select",
+				    template: '<input class="checkbox" type="checkbox" />',
+				    width: 20
+				},
+
+		// row checkbox selection
+		grid.table.on("click", ".checkbox" , selectRow);
+
+
+        // row checkbox selection
+        function selectRow() {
+            var checked = this.checked,
+            row = $(this).closest("tr"),
+            grid = $("#grid").data("kendoGrid"),
+            dataItem = grid.dataItem(row);
+
+            checkedIds[dataItem.id] = checked;
+            if (checked) {
+                //-select the row
+                row.addClass("k-state-selected");
+                } else {
+                //-remove selection
+                row.removeClass("k-state-selected");
+            }
+        }
+
+ 				//selectedRows[idValue] = true;
+	             //delete selectedRows[idValue];
+
+
+/*                     , filterable: {
+                        cell: {
+                            template: function (args) {
+                                args.element.kendoDropDownList({
+                                    dataSource: args.dataSource,
+                                    dataTextField: "userRow",
+                                    dataValueField: "userRow",
+                                    valuePrimitive: true
+                                });
+                            },
+                            showOperators: false
+                        }
+                    }, */
+
+                        , filterable: {
+                            multi: true,
+
+                            dataSource: {
+                                transport: {
+
+                                    read:  {
+                                        url: lookupUrl + "/listUser",
+                                        contentType: "application/json",
+                                        dataType: "json",
+                                        data: {
+                                            field: "userName"
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+
+/* 		                itemTemplate: function(e) {
+		                    if (e.field == "all") {
+		                        return "<div><label><strong><input type='checkbox' />#= all#</strong></label></div>";
+		                    } else {
+		                        return "<span><label><input type='checkbox' name='" + e.field + "' value='#=userName#'/><span>#= userName #</span></label></span>"
+		                    }
+		                }
+ */
+
+
+/*                 	, filterable: {
+                 		//multi : true,
+                        showOperators: false,
+                        ui: ddlFilterUserId
+                        //dataSource : ddlFilterUserId
+                   	} */
+
+
+/* 	                ,filterable: {
+	                    cell: {
+	                        dataSource: new kendo.data.DataSource({
+	                            data: [
+	                                { userId: "Jane" },
+	                                { userId: "Jake" },
+	                                { userId: "John" }
+	                            ]
+	                        }),
+	                        dataTextField: "userId"
+	                    }
+	                } */
+
+/*
+				//filterMenuInit: onFilterMenuInit
+function onFilterMenuInit(e) {
+
+            if (e.field === "slotId" ) {
+                var filterMultiCheck = this.thead.find("[data-field=" + e.field + "]").data("kendoFilterMultiCheck")
+                filterMultiCheck.container.empty();
+                filterMultiCheck.checkSource.sort({field: e.field, dir: "asc"});
+				var newData = [
+                             { slotId : "Open" },
+                             { slotId : "Reserved" },
+                             { slotId : "Parked" },
+                             { slotId : "Inactive" }
+                              ];
+                //filterMultiCheck.checkSource.data(filterMultiCheck.checkSource.view().toJSON());
+                filterMultiCheck.checkSource.data(newData);
+                filterMultiCheck.createCheckBoxes();
+              }
+          } */
+
+
+                                      multi:true,
+                        	dataSource: [
+                                         { slotId: "sdf" },
+                                         { slotId: "yuyu" },
+                                         { slotId: "bnbn" },
+                                         { slotId: "qwer" }
+                                     ]
+                			}
+
+
+<script id="parkingSlotTemplate" type="text/x-kendo-template">
+     #:location# | #:level# | #:slotNo#
+</script>
+
+<script id="calendarTemplate" type="text/x-kendo-template">
+     #= calendarRow #
+</script>
+
+
+
+//	@ManyToOne(fetch=FetchType.LAZY)
+//	@JoinColumn(name ="slotId", insertable = false, updatable = false)
+//	private ParkingSlot parkingSlot;
+
+//	@JsonIgnore
+//	@Transient
+
+//	public String retFieldMap() {
+//		return "{\"slotUsedId\":\"int\",\"id\":\"slotUsedId\"}";;
+//	}
+//
+//	public String retKeyId() {
+//		return "slotUsedId";
+//	}
+//
+//	public String retSortKey() {
+//		return "slotUsedId";
+//	}
+
+
+
+/*	@ManyToOne
+	@JoinColumn(name ="CalendarId")
+	private Calendar calendar;
+
+	@ManyToOne
+	@JoinColumn(name ="SlotId")
+	private ParkingSlot parkingSlot;
+
+	@ManyToOne
+	@JoinColumn(name ="UserId")
+	private User user;
+
+	@ManyToOne
+	@JoinColumn(name ="ParkingId")
+	private Parking parking;*/
+
+
+
+
+	//@JsonBackReference
+	//@JsonIgnore
+
+//	@OneToOne(fetch=FetchType.LAZY)   //(cascade = CascadeType.ALL)
+//	@JoinColumn(name ="VehicleId", insertable = false, updatable = false)
+//	private Vehicle vehicle;
+
+
+//	@OneToMany(mappedBy="user")
+//	@JsonBackReference
+//	private Set<SlotUsed> slotUseds;
+//
+//	@OneToMany(mappedBy="user")
+//	private Set<Parking> parkings;
+
+
+//	@Transient
+//	public boolean isNew() {
+//		return (this.id == null);
+//	}
+
+
+
+//	@OneToMany(fetch=FetchType.EAGER, mappedBy="vehicle")
+//	private Set<User> user;
+
+//	@Transient
+//	private boolean hasChild;
+
+//	@OneToMany(mappedBy="vehicle")
+//	private Set<Parking> parkings;
+
+
+//	public Set<User> getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(Set<User> user) {
+//		this.user = user;
+//	}
+
+//	public Set<User> getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(Set<User> user) {
+//		this.user = user;
+//	}
+
+//	@JsonManagedReference
+//	public Set<User> getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(Set<User> user) {
+//		this.user = user;
+//	}
+//
+//	public boolean isHasChild() {
+//		//return hasChild;
+//		return (user != null);
+//	}
+//
+//	public void setHasChild(boolean hasChild) {
+//		this.hasChild = hasChild;
+//	}
+
+
+
+
+//	public Set<Parking> getParkings() {
+//		return parkings;
+//	}
+//
+//	public void setParkings(Set<Parking> parkings) {
+//		this.parkings = parkings;
+//	}
+
+
+//			if (field.getName().equals("fieldMap"))
+//			{
+//				 try {
+//					 	field.setAccessible(true);
+//
+//					 	String mapFields = (String) field.get(kls.newInstance());
+//
+////					 	ObjectReader reader = new ObjectMapper().reader(Map.class);
+////						Map<String, String> viewFields =reader.readValue(mapFields);
+//						// set fieldMap for field alias
+//						for (Map.Entry<String, String> entry : viewFields.entrySet()) {
+//							dataTypes.put(entry.getKey(), entry.getValue());
+//						}
+//
+//					} catch (IllegalArgumentException | IllegalAccessException | InstantiationException | IOException e) {
+//						e.printStackTrace();
+//					}
+//
+//
+//			}
+
+
+
+
+
+//String SQL_QUERY = "select count(id) from Calendar c";
+//Query query = getSession().createQuery(SQL_QUERY);
+//List list = query.list();
+//counts = (Long) list.get(0);
+
+//Integer counts = ((Long)getSession().createQuery("select count(*) from calendar").uniqueResult()).intValue();
+
+//for(Iterator it=query.iterate();it.hasNext();)
+//  {
+//	counts = (Integer) it.next();
+//   System.out.print("counts: " + counts);
+//  }
+
+//List l = query.list();
+//Object result[] = (Object[]) l.get(0);
+//Integer counts = (Integer) result[0];
+
+
+
+
+
+//Object retObj = new Object() {
+//	public final List data = lstData;
+//	public final Long total = counts;
+//	};
+
+
+//public GenericDaoImpl(Class<T> type) {
+//this.type = type;
+//}
+
+
+//String hql = "FROM " + type.getSimpleName() + " WHERE id = " + id;
+//Query query = getSession().createQuery(hql);
+//
+//
+//	@SuppressWarnings("unchecked")
+//	List<T> listT = (List<T>) query.list();
+//
+//	if (listT != null && !listT.isEmpty()) {
+//		return listT.get(0);
+//	}
+//
+//	return null;
+//
+
+
+
+//	for (Field field : fields) {
+// 	field.setAccessible(true);
+//
+//	if ( Arrays.asList(new String[] {"keyId", "sortKey","fieldMap","sql"}).contains(field.getName()))
+//	{
+//		//String mapFields = (String) field.get(kls.newInstance());
+//	 	String fieldValue = "";
+//		try {
+//			fieldValue = (String) field.get(tmpKls);
+//			classProps.put(field.getName(), fieldValue);
+//
+//		} catch (IllegalArgumentException | IllegalAccessException e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
+//}
+
+//
+//	private static Map<String, String> getTypes(Class kls) {
+//		Field[] fields = kls.getDeclaredFields();
+//		final Map<String, String> dataTypes = new HashMap<>();
+//		for (Field field : fields) {
+//			// populating field data types
+//			dataTypes.put(field.getName(), field.getType().getSimpleName().toLowerCase());
+//			if (field.getName().equals("fieldMap"))
+//			{
+//				 try {
+//					 	field.setAccessible(true);
+//
+//					 	String mapFields = (String) field.get(kls.newInstance());
+//
+//					 	ObjectReader reader = new ObjectMapper().reader(Map.class);
+//						Map<String, String> viewFields =reader.readValue(mapFields);
+//						// set fieldMap for field alias
+//						for (Map.Entry<String, String> entry : viewFields.entrySet()) {
+//							dataTypes.put(entry.getKey(), entry.getValue());
+//						}
+//
+//					} catch (IllegalArgumentException | IllegalAccessException | InstantiationException | IOException e) {
+//						e.printStackTrace();
+//					}
+//
+//
+//			}
+//		}
+//		return dataTypes;
+//	}
+
+
+/*    @RequestMapping(value = "query",  method = { RequestMethod.POST })
+    public String  searchQuery(@ModelAttribute GenSearch search, Model model) {
+    	logger.info("btnClick " + search.getNewStatus());
+		logger.info("slotId " + search.getSlotId() );
+		logger.info("userId " + search.getUserId() + "  " + search.getUserName()  );
+
+    	String strFromDate = Cons.ddMMMyyyyHHmm.format(search.getFromDate());
+    	String strToDate = Cons.ddMMMyyyyHHmm.format(search.getToDate());
+
+    	logger.info("fromDate " + strFromDate);
+    	logger.info("toDate " + strToDate);
+
+
+
+
+		model.addAttribute("search", new GenSearch());
+
+        return "SlotUseds";
+    }*/
+
+
+
+       /*
+    var popMsgInner = $("#popupNotification").kendoNotification().data("kendoNotification");
+    var consMsgInner = $("#staticNotification").kendoNotification({
+        appendTo: "#appendto"
+    }).data("kendoNotification");
+
+    function popMsg(myMsg)
+    {
+    	popMsgInner.show(myMsg);
+    }
+    function consMsg(myMsg)
+    {
+    	consMsgInner.show(myMsg);
+    }
+    window.popMsg = popMsg;
+    window.consMsg = consMsg;
+
+    var notify = $("#notify");
+
+
+
+    notify.kendoNotification({
+        templates: [{
+
+                type: "warning",
+                template: "<div class='myWarning'>Warning: #= myMessage #</div>"
+            }, {
+
+                type: "Alert",
+                template: "<div class='myAlert'>#= myMessage #</div>"
+
+        }]
+    });
+
+    var n = notify.data("kendoNotification");
+
+    function showWarn(myMsg)
+    {
+        n.show({
+            myMessage: myMsg
+        },"warning");
+    }
+
+    function showMsg(myMsg)
+    {
+        n.show({
+            myMessage: myMsg
+        },"Alert");
+    }
+
+    window.showWarn = showWarn;
+    window.showMsg = showMsg;
+     */
+
+    //var checkedIds = {};
+    //window.checkedIds = checkedIds;
+
+    //var mySelectedRows = {};
+    //window.mySelectedRows = mySelectedRows;
+
+/*    // row highlighted selection
+    onChange = function (e, args) {
+
+        var grid = e.sender;
+        var items = grid.items();
+        items.each(function (idx, row) {
+	     	kendoConsole.log("outer");
+            var idValue = grid.dataItem(row).get(idField);
+            if (row.className.indexOf("k-state-selected") >= 0) {
+            	selectedRows[idValue] = true;
+            } else if (selectedRows[idValue]) {
+                delete selectedRows[idValue];
+            }
+        });
+    }
+
+	window.onChange = onChange;*/
+
+    function onDataBound(e) {
+/*        $(".checkbox").bind("change", function (e) {
+            $(e.target).closest("tr").toggleClass("k-state-selected");
+          });*/
+    	// row checkbox selection
+/*        var view = this.dataSource.view();
+        for(var i = 0; i < view.length;i++){
+            if(checkedIds[view[i].id]){
+                this.tbody.find("tr[data-uid='" + view[i].uid + "']")
+                .addClass("k-state-selected")
+                .find(".checkbox")
+                .attr("checked","checked");
+            }
+        }*/
+        }
+
+
+                            important  <div class="console" > </div>
+                            important <span id="notification"></span>
+                            important <div id="window"></div> rename to del_window
+
+                            //<span id="notify"></span>
+                            //<span id="popupNotification"></span>
+                            //<span id="staticNotification"></span>
+                            //<div id="appendto" class="demo-section k-content"></div>
+
+
+
+
+				<c:if test="${user.userId == null}">
+					<form:password path="pwd"  title="Password is mandatory for new user" />
+					<c:set var="validationErrors"><form:errors path="*"/></c:set>
+					<c:if test="${validationErrors.contains(\"Password is required for new User\")}">
+						<form:errors path="*" cssClass="error" />
+					</c:if>
+
+				</c:if>
+				<c:if test="${user.userId != null}">
+					<form:password path="pwd" />
+					<form:errors path="pwd" cssClass="error"/></td>
+				</c:if>
+
+				            <ul class="nav navbar-nav navbar-left">
+<%--                 <sec:authorize access="isAuthenticated()"> --%>
+                    <li><a href="${root}"><spring:message code="label.navigation.home.link"/></a></li>
+<%--                 </sec:authorize> --%>
+            </ul>
+role="navigation"
+    <div class="navbar navbar-default" role="navigation">
+
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only"><spring:message code="label.navigation.toggle.navigation.button"/></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="${root}user"  >HOME</a>
+                <div class="nav-collapse collapse">
+                    <p class="navbar-text pull-right">
+                        Logged in as <a href="#" class="navbar-link">Username</a>
+                    </p>
+                    <ul class="nav">
+                        <li class="active"><a href="${root}user" >User</a></li>
+                        <li><a href="${root}vehicle">Vehicle</a></li>
+                        <li><a href="${root}calendar">Calendar</a></li>
+                        <li><a href="${root}parkingSlot">Parking Slot</a></li>
+                        <li><a href="${root}slotUsed">Reserve or Park</a></li>
+                        <li><a href="${root}parking">View Reserved and Parked</a></li>
+                        <li><a href="${root}parkingBill">Parking Bill</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div> <!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+
+
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li><a href="${root}"><spring:message code="label.navigation.home.link"/></a></li>
+
+                <sec:authorize access="isAnonymous()">
+                    <li><a href="${root}user/signup"><spring:message code="label.navigation.SignUp.link"/></a></li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li>
+                        <form action="${root}logout" method="POST">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            <button type="submit" class="btn btn-default navbar-btn">
+                                <spring:message code="label.navigation.logout.link"/>
+                            </button>
+                        </form>
+                    </li>
+                </sec:authorize>
+                        <li class="active"><a href="${root}user" >User</a></li>
+                        <li><a href="${root}vehicle">Vehicle</a></li>
+                        <li><a href="${root}calendar">Calendar</a></li>
+                        <li><a href="${root}parkingSlot">Parking Slot</a></li>
+                        <li><a href="${root}slotUsed">Reserve or Park</a></li>
+                        <li><a href="${root}parking">View Reserved and Parked</a></li>
+                        <li><a href="${root}parkingBill">Parking Bill</a></li>
+                        <li><a href="#contact">Contact</a></li>
+            </ul>
+
+
+/*	@RequestMapping(value = "external/uploadCarpark", method = RequestMethod.POST )
+	public String upload(
+	        @RequestPart("fileData") CommonsMultipartFile fileData
+	        )
+	{
+		StaticFuncs.hasRole("External");
+
+		List<List<String>>  csv = null;
+		try {
+			FileBean fileBean = new FileBean();
+			fileBean.setFileData(fileData);
+
+			 csv = UploadCarparkService.extractFromExcel(fileBean);
+		} catch (Exception e) {
+
+		}
+
+        return "UploadCarpark";
+
+	    //return "import/ImportDone";
+	}*/
+
+
+
+	/*		ClassMetadata classMetadata = sessionFactory.getClassMetadata(kls);
+		String[] propertyNames = classMetadata.getPropertyNames();
+
+		for (String property : propertyNames) {
+		    Configuration configuration = sessionFactory.getConfiguration();
+		    PersistentClass persistentClass = configuration
+		                    .getClassMapping(kls.getName());
+		    String columnName = ((Column) persistentClass.getProperty(property)
+		                    .getColumnIterator().next()).getName();
+		}*/
+		AbstractEntityPersister aep=((AbstractEntityPersister) sessionFactory.getClassMetadata(kls));
+		String[] properties=aep.getPropertyNames();
+
+		for(int nameIndex=0;nameIndex!=properties.length;nameIndex++){
+		   System.out.println("Property name: "+properties[nameIndex]);
+		   String[] columns=aep.getPropertyColumnNames(nameIndex);
+		   for(int columnIndex=0;columnIndex!=columns.length;columnIndex++){
+		      System.out.println("Column name: "+columns[columnIndex]);
+		   }
+		}

@@ -1,0 +1,5 @@
+projectKey=org.sonarqube:java-simple-sq-scanner
+serverUrl=http://localhost:9000
+dashboardUrl=http://localhost:9000/dashboard/index/org.sonarqube:java-simple-sq-scanner
+ceTaskId=AVWJVKx7lrCIK2SMn76_
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AVWJVKx7lrCIK2SMn76_
