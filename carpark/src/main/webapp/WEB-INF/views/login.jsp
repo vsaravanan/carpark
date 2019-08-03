@@ -124,7 +124,7 @@ $(function() {
 											>Read Me</button>
 
 										<button type="button" class="btn btn-warning"
-										onclick="location.href='http://<%= request.getServerName() %>:7070' "
+										onclick="location.href='https://web.saravan-js.com/' "
 										>View spring tutorials</button>
 									</div>									
 
