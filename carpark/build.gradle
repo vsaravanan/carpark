@@ -1,3 +1,4 @@
+apply plugin: 'war'
 apply plugin: 'java'
 apply plugin: 'maven'
 
@@ -9,6 +10,7 @@ description = """carpark"""
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+
 ext
 {
 	springVersion='4.2.4.RELEASE'
@@ -17,13 +19,11 @@ ext
 
 
 repositories {
-
-	maven { url "http://repo.maven.apache.org/maven2"}
-	maven { url "https://repo1.maven.org/maven2"}
-	maven { url "http://maven.springframework.org/release" }
+//    maven { url "http://repo.spring.io/plugins-release/"}
+//	maven { url "http://repo.maven.apache.org/maven2"}
+//	maven { url "https://repo1.maven.org/maven2"}
+//	maven { url "http://maven.springframework.org/release" }
 	mavenCentral()
-
-
 }
 dependencies {
     compile 'org.springframework:spring-core:$springVersion'
@@ -45,8 +45,10 @@ dependencies {
 	compile 'org.hibernate:hibernate-validator:5.2.3.Final'
 
 	compile 'org.postgresql:postgresql:9.4.1207'
-    //compile 'javax.servlet:javax.servlet-api:3.1'
-    compile 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.1'
+    compile 'javax.servlet:javax.servlet-api:4.0.0'
+
+//    compile 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.1'
+    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
     compile 'javax.servlet:jstl:1.2'
     compile 'org.slf4j:slf4j-api:+'
 
@@ -59,10 +61,15 @@ dependencies {
     compile 'org.json:json:+'
     compile 'org.sitemesh:sitemesh:+'
     compile 'org.apache.poi:poi-ooxml:3.13'
+    //providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
 	//compile 'log4j:log4j:+'
 	//compile 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:+'
 
-
+    implementation files(
+            '../../out/Common.jar',
+            '../../out/CarparkDao.jar',
+            '../../out/CarparkEntities.jar',
+            '../../out/GenericDao.jar')
 
 }
 
@@ -70,3 +77,6 @@ configurations {
     compile.exclude group: 'org.jboss.logging'
 }
 
+war {
+    from 'src/main/webapp' // adds a file-set to the root of the archive
+}

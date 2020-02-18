@@ -1,6 +1,13 @@
 package conti.ies.carpark.statics;
 
 
+import org.apache.poi.hssf.eventusermodel.*;
+import org.apache.poi.hssf.eventusermodel.dummyrecord.LastCellOfRowDummyRecord;
+import org.apache.poi.hssf.eventusermodel.dummyrecord.MissingCellDummyRecord;
+import org.apache.poi.hssf.record.*;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,30 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
-import org.apache.poi.hssf.eventusermodel.FormatTrackingHSSFListener;
-import org.apache.poi.hssf.eventusermodel.HSSFEventFactory;
-import org.apache.poi.hssf.eventusermodel.HSSFListener;
-import org.apache.poi.hssf.eventusermodel.HSSFRequest;
-import org.apache.poi.hssf.eventusermodel.MissingRecordAwareHSSFListener;
-import org.apache.poi.hssf.eventusermodel.dummyrecord.LastCellOfRowDummyRecord;
-import org.apache.poi.hssf.eventusermodel.dummyrecord.MissingCellDummyRecord;
-import org.apache.poi.hssf.record.BOFRecord;
-import org.apache.poi.hssf.record.BlankRecord;
-import org.apache.poi.hssf.record.BoolErrRecord;
-import org.apache.poi.hssf.record.BoundSheetRecord;
-import org.apache.poi.hssf.record.CellValueRecordInterface;
-import org.apache.poi.hssf.record.FormulaRecord;
-import org.apache.poi.hssf.record.LabelRecord;
-import org.apache.poi.hssf.record.LabelSSTRecord;
-import org.apache.poi.hssf.record.NoteRecord;
-import org.apache.poi.hssf.record.NumberRecord;
-import org.apache.poi.hssf.record.RKRecord;
-import org.apache.poi.hssf.record.Record;
-import org.apache.poi.hssf.record.SSTRecord;
-import org.apache.poi.hssf.record.StringRecord;
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 public class XLSExporter implements HSSFListener {
 	private final int	                 minColumns;
@@ -90,6 +73,7 @@ public class XLSExporter implements HSSFListener {
 	/**
 	 * Initiates the processing of the XLS file to CSV
 	 */
+	@SuppressWarnings("unchecked")
 	public HashMap<String, ArrayList> process() throws IOException {
 		sheetsByName = new HashMap<String, ArrayList>();
 		sheetsName = new ArrayList<String>();

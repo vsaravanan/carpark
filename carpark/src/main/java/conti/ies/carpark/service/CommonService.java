@@ -1,18 +1,17 @@
 package conti.ies.carpark.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import conti.ies.carpark.dao.IUserDao;
+import conti.ies.carpark.model.AdhocDao;
+import conti.ies.carpark.model.IPrepareAndExecute;
+import conti.ies.carpark.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import conti.ies.carpark.dao.IUserDao;
-import conti.ies.carpark.model.AdhocDao;
-import conti.ies.carpark.model.IPrepareAndExecute;
-import conti.ies.carpark.model.User;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommonService  {

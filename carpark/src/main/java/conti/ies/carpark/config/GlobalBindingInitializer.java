@@ -1,7 +1,6 @@
 package conti.ies.carpark.config;
 
-import java.util.Date;
-
+import conti.ies.comp.Cons;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,7 +8,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.support.WebBindingInitializer;
 import org.springframework.web.context.request.WebRequest;
 
-import conti.ies.comp.Cons;
+import java.util.Date;
 
 // This annotation is used to define @ExceptionHandler, @InitBinder, and @ModelAttribute methods that apply to all @RequestMapping methods
 @ControllerAdvice
