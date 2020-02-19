@@ -191,11 +191,14 @@ $(function() {
                         id: "calendarId",
                         fields: {
                         	calendarId: { editable: false, nullable: true },
-                            entryDate : {type: "date"},
-                            entryTime : {},
+                            entryDate : {},
+                            entryTime : {type: "datetime"},
                             exitTime : {type: "date"}
 
                         } ,
+						entryDateDdMMMyyyy : function() {
+							return kendo.toString(new Date(this.entryDate),'dd-MMM-yyyy');
+						},
                         entryTimeHHmm : function() {
                         	return kendo.toString(new Date(this.entryTime),"HH:mm");
                         }
@@ -226,8 +229,8 @@ $(function() {
             toolbar   : ["create", "save", "cancel"],
             columns: [
                 { field: "calendarId", title: "Calendar id", width: 80  },
-                { field: "entryDate", title: "Entry date" , format : "{0:dd-MMM-yyyy}", width: 130  },
-                 { field: "entryTimeHHmm", title: "Entry time", width: 170, template: "#= entryTimeHHmm #",
+                { field: "entryDate", title: "Entry date" , template: "#= entryDateDdMMMyyyy() #", width: 130  },
+                 { field: "entryTime", title: "Entry time", width: 170,  template: "#= entryTimeHHmm() #",
                     filterable: {
                         ui: "datetimepicker"
                     }

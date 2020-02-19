@@ -269,7 +269,7 @@ $(function() {
 
 	var lstUsersFull = Object.create(lstUsers);
 	lstUsersFull.optionLabel = "Select user id ..",
-	lstUsersFull.template = '#= rpad(userName,20,"&nbsp;") # &nbsp; #= rpad(address,20,"&nbsp;") # &nbsp;  #= rpad(email,20,"&nbsp;") # &nbsp; #= rpad(phoneNo,10,"&nbsp;") # '
+	lstUsersFull.template = '#= userName.padEnd(20,"~").replace(/~/gi,"&nbsp;") # &nbsp; #= address # '
     $("#userId0").kendoDropDownList(lstUsersFull);
 
 

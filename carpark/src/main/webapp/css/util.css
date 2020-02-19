@@ -230,6 +230,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1CBBFF', end
 	    padding-right: 0px;
 	}
 
+	.k-popup div ul li.k-item
+	{
+		font-family: monospace !important;
+	)
 
    .k-list-container
     {
