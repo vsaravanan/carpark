@@ -72,8 +72,8 @@
 
 		<sec:authorize access="hasRole('ROLE_Internal')">
 	            <li><a href="${root}vehicle">Vehicle</a></li>
+			<li><a href="${root}parkingSlot">ParkingSlot</a></li>
 	            <li><a href="${root}calendar">Calendar</a></li>
-	            <li><a href="${root}parkingSlot">ParkingSlot</a></li>
 	            <li><a href="${root}slotUsed">Reserve/Park</a></li>
 	            <li><a href="${root}parking">View_Parkings</a></li>
 	            <li><a href="${root}parkingBill">Billing</a></li>

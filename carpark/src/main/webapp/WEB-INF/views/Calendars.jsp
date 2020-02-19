@@ -19,41 +19,46 @@
 
 		<div id="mainDiv" align="center" class="hero-unit">
 		<spring:url	 value="/"		var="root"	 />
+
+		<form:form action= "${root}calendar/search" modelAttribute="search"   method="post" >
 		<table>
-				<form:form action= "${root}calendar/search" modelAttribute="search"   method="post" >
 		<thead>
 
 			<tr>
-				<th class="col-sm-2 control-label" align="left">From date </th>
-				<th class="col-sm-2 control-label" align="left">To date </th>
 				<th class="col-sm-2 control-label" align="left">&nbsp;</th>
-				<th class="col-sm-6 control-label" align="left">&nbsp;</th>
+				<th class="col-sm-2 control-label" align="left">From date </th>
+				<th class="col-sm-1 control-label" align="left">&nbsp;</th>
+				<th class="col-sm-3 control-label" align="left">To date </th>
+				<th class="col-sm-1 control-label" align="left">&nbsp;</th>
+				<th class="col-sm-3 control-label" align="left">&nbsp;</th>
 			</tr>
 		</thead>
 			<tr>
-
-
+				<td >&nbsp;</td>
 				<td>
 					<input id="fromDate0"   />
  					<form:hidden path="fromDate" />
 				</td>
+				<td >&nbsp;</td>
 				<td>
 					<input id="toDate0"    />
  					<form:hidden path="toDate"/>
 				</td>
-
+				<td >&nbsp;</td>
 				<td>
 					<button type="submit" class="btn btn-primary ">Generate</button>
-				</td>
-				<td>
-					&nbsp;
 				</td>
 
 			</tr>
 
 
+		</table>
+		<table>
 			<tr>
-				<td colspan="4" class="col-sm-12">
+				<td class="col-sm-1">
+					&nbsp;
+				</td>
+				<td class="col-sm-8">
 					<button id="btnPopup" type="button" >
 							<span class="k-sprite"></span>Popup
 					</button>
@@ -66,6 +71,7 @@
 
 
 				</td>
+				<td class="col-sm-3">&nbsp;</td>
 			</tr>
 
 		</table>
@@ -178,7 +184,7 @@ $(function() {
                 requestEnd : onRequestEnd,
                 error : error,
                 batch: true,
-                pageSize: 10,
+                pageSize: 7,
                 allowCopy: true,
                 serverPaging: true,
                 serverFiltering: true,
@@ -217,7 +223,7 @@ $(function() {
             selectable: "multiple cell",
 
         	allowCopy: true,
-            pageable: {pageSizes : [5, 10, 25, 50,"all"] },
+            pageable: {pageSizes : [5, 7, 10, 25, 50,"all"] },
             navigatable: true,
             scrollable: true,
             sortable: true,
@@ -225,7 +231,7 @@ $(function() {
             resizable: true,
 
 
-            height: 300,
+            height: 400,
             toolbar   : ["create", "save", "cancel"],
             columns: [
                 { field: "calendarId", title: "Calendar id", width: 80  },
