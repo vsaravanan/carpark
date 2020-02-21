@@ -15,15 +15,33 @@
     </head>
 <body>
 
-		<button id="btnPopup" type="button" >
-				<span class="k-sprite"></span>Popup
-		</button>
-		<input type="checkbox" id="chkPopup"   disabled="disabled" />
-
-                            <div id="grid"></div>
-                            <div class="console" > </div>
-                            <span id="notification"></span>
-                            <div id="del_window"></div>
+    <table>
+        <tr>
+            <td width="10%" height="10%"></td>
+            <td >&nbsp;</td>
+            <td width="10%">&nbsp;</td>
+        </tr>
+        <tr>
+            <td >&nbsp;</td>
+            <td >
+                <button id="btnPopup" type="button" >
+                    <span class="k-sprite"></span>Popup
+                </button>
+                <input type="checkbox" id="chkPopup"   disabled="disabled" />
+            </td>
+            <td >&nbsp;</td>
+        </tr>
+        <tr>
+            <td >&nbsp;</td>
+            <td>
+                <div id="grid"></div>
+                <div class="console" > </div>
+                <span id="notification"></span>
+                <div id="del_window"></div>
+            </td>
+            <td >&nbsp;</td>
+        </tr>
+    </table>
 
 
 

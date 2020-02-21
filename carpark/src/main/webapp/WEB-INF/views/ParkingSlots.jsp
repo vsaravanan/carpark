@@ -23,34 +23,29 @@
 		<thead>
 
 			<tr>
-				<th class="col-sm-2 control-label" align="left">&nbsp;</th>
-				<th class="col-sm-2 control-label" align="left">&nbsp;</th>
-				<th class="col-sm-2 control-label" align="left">&nbsp;</th>
-				<th class="col-sm-6 control-label" align="left">&nbsp;</th>
+				<th class="col-sm-1 control-label" align="left">&nbsp;</th>
+				<th class="col-sm-3 control-label" align="left">&nbsp;</th>
+				<th class="col-sm-7 control-label" align="left">&nbsp;</th>
+				<th class="col-sm-1 control-label" align="left">&nbsp;</th>
 			</tr>
 		</thead>
 			<tr>
 
 
-				<td>
-					&nbsp;
-				</td>
-				<td>
-					&nbsp;
-				</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
 
 				<td>
 					<button type="submit" class="btn btn-primary ">Search</button>
 				</td>
-				<td>
-					&nbsp;
-				</td>
+				<td>&nbsp;</td>
 
 			</tr>
 
 
 			<tr>
-				<td colspan="4" class="col-sm-12">
+				<td>&nbsp;</td>
+				<td colspan="2" class="col-sm-10">
 					<button id="btnPopup" type="button" >
 							<span class="k-sprite"></span>Popup
 					</button>
@@ -63,6 +58,7 @@
 
 
 				</td>
+				<td>&nbsp;</td>
 			</tr>
 
 		</table>
