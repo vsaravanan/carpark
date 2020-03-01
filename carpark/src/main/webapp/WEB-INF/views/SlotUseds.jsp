@@ -116,8 +116,8 @@ $(function() {
                     </div>
                     <div class="row-fluid" > <div class="span12" > </div></div>
                     <div class="row-fluid" row>
-                        <div class="span7" ></div>
-                        <div class="span5">
+                        <div class="span6" ></div>
+                        <div class="span6">
                             <div class="row-fluid">
                                 <div class="span2">
                                     <button type="button" class="btn btn-block btn-primary" >Open</button>
@@ -288,6 +288,7 @@ $(function() {
                         complete:  function (res, textStatus) {
                         	writeException  (res, textStatus);
                         	$("#newStatus").val("");
+                            kendoConsole.log(res.responseJSON["message"]);
                         }
                     },
                     create : {
@@ -339,11 +340,6 @@ $(function() {
                         	if (!! options.filter)
 	                        	$("#newStatus").val() == "Filter"
 
-							//kendoConsole.log("btnClicked : " + $("#newStatus").val());
-
-                         	//var i = 0;
-                        	//var lstTables = {};
-                         	//var lstWhere = [];
 							var listFF = []
 
    							function FieldFilter(){
@@ -353,8 +349,6 @@ $(function() {
 
                          	if (!! $("#fromDate").val())
                        		{
-                         		//lstTables[" calendar c "] = 0;
-                     			//lstWhere.push(" s.calendarId = c.calendarId and c.entryTime >= '" +  $("#fromDate").val() + "'");
 
     							var ff = new FieldFilter();
     							ff.field = "entryTime";
@@ -366,8 +360,6 @@ $(function() {
 
                            	if (!! $("#toDate").val())
                        		{
-                         		//lstTables[" calendar c "] = 0;
-                     			//lstWhere.push(" s.calendarId = c.calendarId and c.exitTime < '" +  $("#toDate").val() + "'");
 
     							var ff = new FieldFilter();
     							ff.field = "exitTime";
@@ -379,7 +371,6 @@ $(function() {
 
                             if (!! $("#slotId").val())
                          	{
-                       			//lstWhere.push(" s.slotId in (" +  $("#slotId").val() + " ) ");
 
 	   							var ff = new FieldFilter();
 	   							ff.field = "slotId";
@@ -390,28 +381,12 @@ $(function() {
 
                            	if (!! $("#userId").val())
                        		{
-                       			//lstWhere.push(" s.userId in (" +  $("#userId").val() + " ) ");
 
 	   							var ff = new FieldFilter();
 	   							ff.field = "userId";
 	   							ff.where = " s.userId in (" +  $("#userId").val() + " ) ";
 	   							listFF.push(ff);
                          	}
-
-							/*
-                           	var tables = [];
-                           	for(o in lstTables) tables.push(o);
-
-                           	var extraTables = "";
-                           	if (tables.length > 0)
-                           		extraTables = " , " + tables.join(", ");
-							//options.extraTables = extraTables;
-
-							var extraSearch = "";
-                           	if (lstWhere.length > 0)
-                           		extraSearch = lstWhere.join(" and ");
-							//options.extraSearch = extraSearch;
-							*/
 
                            	if ($("#newStatus").val() == "Search")
                            		options.btnSearch = true;
@@ -423,7 +398,7 @@ $(function() {
 							options.fieldFilters = listFF;
 
                         	var js = JSON.stringify(options);
-                            //kendoConsole.log(js);
+                            kendoConsole.log(js);
 
                             return js;
 
@@ -498,7 +473,7 @@ $(function() {
 
             columns: [
 
-                { field: "slotUsedId", title: "Slot used id", width: 80 ,
+                { field: "slotUsedId", title: "Slot used id", width: 40 ,
                     filterable: {
                         ui: function (e) {
                             e.kendoNumericTextBox({
@@ -508,13 +483,13 @@ $(function() {
                         }
                     }
                 },
-                { field: "calendarId", title: "Calendar", width: 120,  template: '#= calendarRow #', filterable: false },
-                { field: "slotId", title: "Location", width: 120, template: '#= parkingSlotRow #',
+                { field: "calendarId", title: "Calendar", width: 80,  template: '#= calendarRow #', filterable: false },
+                { field: "slotId", title: "Location", width: 80, template: '#= parkingSlotRow #',
                 		filterable: {
                 			ui : ddlFilterSlot
 		                },
                 },
-                { field: "status", title: "Status", width: 40, attributes: {"class" : "div#= status #" }
+                { field: "status", title: "Status", width: 50, attributes: {"class" : "div#= status #" }
                      , filterable: {
                         multi:true,
                     	dataSource: [
@@ -526,13 +501,7 @@ $(function() {
                     }
 
                 },
-                { field: "userId", title: "User", width: 80, template: '<a href="${root}allusers/view/#=userId#">#=userRow#</a>'
-                	, filterable: {
-                    	ui: ddlFilterUserId
-		               	}
-
- 				},
-                { field: "parkingId", title: "Parking id", width: 80 ,
+                { field: "parkingId", title: "Parking id", width: 40 ,
                     filterable: {
                         ui: function (e) {
                             e.kendoNumericTextBox({
@@ -542,6 +511,12 @@ $(function() {
                         }
                     }
  				},
+                { field: "userId", title: "User", width: 80, template: '<a href="${root}allusers/view/#=userId#">#= (userId == null) ? " " :  userRow#</a>'
+                    , filterable: {
+                        ui: ddlFilterUserId
+                    }
+
+                },
 				{ command: [{name: "myDelete", text: "Delete", click: deleteItem}], title: "&nbsp;", width: 80 }],
 
         }).data("kendoGrid");

@@ -16,6 +16,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import org.hibernate.validator.constraints.NotBlank;
 
 import conti.ies.comp.EntityProps;
@@ -95,7 +97,7 @@ public class Carpark implements Serializable {
 								"s.userId = u.userId"
 								);
 
-		Map<String, FieldFilter> fieldFilters = new HashMap<>();
+		Multimap<String, FieldFilter> fieldFilters= ArrayListMultimap.create();
 		fieldFilters.put("userName", ff);
 
 

@@ -1,6 +1,7 @@
 package conti.ies.comp;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -12,9 +13,7 @@ public class FilterPtrRoot {
 
 	private List<gSort> sort;
 
-	private gFilterPtr filter;
-
-	private String orderBy;
+	private String orderBy = "";
 
 	private String orderByRow;
 
@@ -26,19 +25,11 @@ public class FilterPtrRoot {
 
 	private boolean btnSearch = false;
 
-	private Set<String> joinTables;
+	private Set<String> joinTables = new HashSet<>();
 
-	private Set<String> joinWheres;
+	private Set<String> joinWheres = new HashSet<>();
 
 	private List<gFieldFilter> fieldFilters = new ArrayList<>();
-
-	public gFilterPtr getFilter() {
-		return filter;
-	}
-
-	public void setFilter(gFilterPtr filter) {
-		this.filter = filter;
-	}
 
 	public int getSkip() {
 		return skip;

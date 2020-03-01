@@ -174,11 +174,11 @@ public class GenerateSlotController   {
     	logger.info("fromDate " + strFromDate);
     	logger.info("toDate " + strToDate);
 
-    	strFromDate = Cons.ddMMMyyyy.format(search.getFromDate());
-    	strToDate = Cons.ddMMMyyyy.format(search.getToDate());
-
-    	logger.info("fromDate " + strFromDate);
-    	logger.info("toDate " + strToDate);
+//    	strFromDate = Cons.ddMMMyyyy.format(search.getFromDate());
+//    	strToDate = Cons.ddMMMyyyy.format(search.getToDate());
+//
+//    	logger.info("fromDate " + strFromDate);
+//    	logger.info("toDate " + strToDate);
 
 		String Sql = "select GenerateSlotUsed('<fromDate>',  '<toDate>', '<slotId>', '<status>', null, null ) ";
 		Sql = Sql.replace("<fromDate>", strFromDate);

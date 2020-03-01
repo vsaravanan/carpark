@@ -145,6 +145,7 @@ $(function() {
                         complete:  function (res, textStatus) {
                         	//kendoConsole.log(res.responseText);
                         	writeException  (res, textStatus);
+                            kendoConsole.log(res.responseJSON["message"]);
                         }
                     },
                     create : {
@@ -195,42 +196,65 @@ $(function() {
                         {
 
 
-                         	var i = 0;
-                        	var lstTables = {};
-                         	var lstWhere = [];
+                            var listFF = [];
+
+                            function FieldFilter(){
+                                this.field = "";
+                                this.where = "";
+                            }
+
+                         	// var i = 0;
+                        	// var lstTables = {};
+                         	// var lstWhere = [];
 
                          	if (!! $("#fromDate").val())
                        		{
                          		//lstTables[" Calendar c "] = 0;
-                     			lstWhere.push(" s.entryTimeInReserve >= '" +  $("#fromDate").val() + "'");
+                     			// lstWhere.push(" s.entryTimeInReserve >= '" +  $("#fromDate").val() + "'");
+                                var ff = new FieldFilter();
+                                ff.field = "entryTimeInReserve";
+                                ff.where = " s.entryTimeInReserve >= '" +  $("#fromDate").val() + "'";
+                                listFF.push(ff);
                        		}
 
 
                            	if (!! $("#toDate").val())
                        		{
                          		//lstTables[" Calendar c "] = 0;
-                     			lstWhere.push(" s.exitTimeInReserve < '" +  $("#toDate").val() + "'");
+                     			// lstWhere.push(" s.exitTimeInReserve < '" +  $("#toDate").val() + "'");
+                                var ff = new FieldFilter();
+                                ff.field = "exitTimeInReserve";
+                                ff.where = "s.exitTimeInReserve < '" +  $("#toDate").val() + "'";
+                                listFF.push(ff);
+
                        		}
 
+                            options.fieldFilters = listFF;
 
-                           	var tables = [];
-                           	for(o in lstTables) tables.push(o);
-
-                           	var extraTables = "";
-                           	if (tables.length > 0)
-                           		extraTables = " , " + tables.join(", ");
-							options.extraTables = extraTables;
-
-							var extraSearch = "";
-                           	if (lstWhere.length > 0)
-                           		extraSearch = lstWhere.join(" and ");
-							options.extraSearch = extraSearch;
-
-                        	var js = JSON.stringify(options);
-                            //console.log(js);
-                            //kendoConsole.log(js);
+                            // debugger;
+                            var js = JSON.stringify(options);
+                            kendoConsole.log(js);
 
                             return js;
+
+                           	// var tables = [];
+                           	// for(o in lstTables) tables.push(o);
+                            //
+                           	// var extraTables = "";
+                           	// if (tables.length > 0)
+                           	// 	extraTables = " , " + tables.join(", ");
+							// options.extraTables = extraTables;
+                            //
+							// var extraSearch = "";
+                           	// if (lstWhere.length > 0)
+                           	// 	extraSearch = lstWhere.join(" and ");
+							// options.extraSearch = extraSearch;
+                            //
+                        	// var js = JSON.stringify(options);
+                            // //console.log(js);
+                            // kendoConsole.log(js);
+                            //
+                            // return js;
 
                         }
                     }

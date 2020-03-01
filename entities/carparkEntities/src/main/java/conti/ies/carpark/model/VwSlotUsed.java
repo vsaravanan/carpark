@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import conti.ies.comp.EntityProps;
 import conti.ies.comp.FieldFilter;
 
@@ -111,7 +113,8 @@ public class VwSlotUsed  implements Serializable {
 				"calendar",
 				"s.calendarId = c.calendarId"
 				);
-		Map<String, FieldFilter> fieldFilters = new HashMap<>();
+		Multimap<String, FieldFilter> fieldFilters= ArrayListMultimap.create();
+
 		fieldFilters.put("entryTime", ff);
 		fieldFilters.put("exitTime", ff);
 		fieldFilters.put("slotId",

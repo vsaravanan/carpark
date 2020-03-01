@@ -1,6 +1,6 @@
 package conti.ies.carpark.controller;
 
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +25,7 @@ public class LookupController {
 	public @ResponseBody List<ParkingSlot> listParkingSlot() {
 
 		List<ParkingSlot> lst = parkingSlotDao.list();
+		Collections.sort(lst, Comparator.comparingInt(ParkingSlot::getSlotId));
 
 		CustLog.printJson("ParkingSlot", lst);
 

@@ -169,7 +169,7 @@ public abstract class GenericDao<T, PK extends Serializable> implements IGeneric
 			// check if too many records use sort by index key
 			// to avoid performance degrade
 
-			if (counts > 10000 || fpr.getOrderByRow().equals("") )
+			if (counts > 10000 || StringUtils.isBlank(fpr.getOrderByRow()))
 			{
 				Sql = Sql.replaceAll("<orderByNum>", " ORDER BY s.<sortKey> " );
 				Sql = Sql.replaceAll("<sortKey>", mapClassProps.get("sortKey") );
@@ -194,7 +194,7 @@ public abstract class GenericDao<T, PK extends Serializable> implements IGeneric
 
 		final List lstData = qrySql.list();
 
-		KendoRead kr = new KendoRead(lstData, counts);
+		KendoRead kr = new KendoRead(lstData, counts, pc.getMessage());
 
 		return kr;
 
@@ -281,10 +281,10 @@ public abstract class GenericDao<T, PK extends Serializable> implements IGeneric
 
 }
 
-//·       @Component – Indicates a auto scan component.
-//·       @Repository – Indicates DAO component in the persistence layer.
-//·       @Service – Indicates a Service component in the business layer.
-//·       @Controller – Indicates a controller component in the presentation layer.
+//ï¿½       @Component ï¿½ Indicates a auto scan component.
+//ï¿½       @Repository ï¿½ Indicates DAO component in the persistence layer.
+//ï¿½       @Service ï¿½ Indicates a Service component in the business layer.
+//ï¿½       @Controller ï¿½ Indicates a controller component in the presentation layer.
 //| Annotation | Meaning                                             |
 //+------------+-----------------------------------------------------+
 //| @Component | generic stereotype for any Spring-managed component |

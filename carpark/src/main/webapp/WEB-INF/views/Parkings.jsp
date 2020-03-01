@@ -78,11 +78,16 @@ $(function() {
                             <input id="toDate0"    />
                             <form:hidden path="toDate"/>
                          </div>
+                        <div class="span1" >
+                            &nbsp;
+                        </div>
 
-                        <div class="span4" >
+                        <div class="span2" >
+                            <button type="button" class="btn btn-block btn-Search" >Search</button>
 
                         </div>
-                        <div class="span4" >
+                        <div class="span3" >
+                            &nbsp;
                         </div>
                     </div>
                     <div class="row-fluid" > <div class="span12" > </div></div>
@@ -95,7 +100,6 @@ $(function() {
                                 </div>
 
                                 <div class="span2">
-                                    <button type="button" class="btn btn-block btn-Search" >Search</button>
                                 </div>
 
 
@@ -208,6 +212,7 @@ $(function() {
                         complete:  function (res, textStatus) {
                         	//kendoConsole.log(res.responseText);
                         	writeException  (res, textStatus);
+                            kendoConsole.log(res.responseJSON["message"]);
                         }
                     },
                     create : {
@@ -219,6 +224,7 @@ $(function() {
 
                                 if (textStatus != "success") {
                                 	writeException  (res, textStatus);
+                                    $("#newStatus").val("");
                                 }
                                 else
                                	{
@@ -256,14 +262,57 @@ $(function() {
                         }
                         else
                         {
+                            if (!! options.filter) {
+                                $("#newStatus").val() == "Filter"
+                            }
 
-                        	var js = JSON.stringify(options);
-                            //console.log(js);
-                            //kendoConsole.log(js);
+                            var listFF = [];
+
+                            function FieldFilter(){
+                                this.field = "";
+                                this.where = "";
+                            }
+
+                            if (!! $("#fromDate").val())
+                            {
+
+                                var ff = new FieldFilter();
+                                ff.field = "entryTime";
+                                ff.where = "c.entryTime >= '" +  $("#fromDate").val() + "'";
+                                listFF.push(ff);
+
+                            }
+
+
+                            if (!! $("#toDate").val())
+                            {
+
+                                var ff = new FieldFilter();
+                                ff.field = "exitTime";
+                                ff.where = "c.exitTime < '" +  $("#toDate").val() + "'";
+                                listFF.push(ff);
+
+                            }
+
+
+
+                            if ($("#newStatus").val() == "Search")
+                                options.btnSearch = true;
+                            else
+                                options.btnSearch = false;
+
+
+
+                            options.fieldFilters = listFF;
+
+                            // debugger;
+                            var js = JSON.stringify(options);
+                            kendoConsole.log(js);
 
                             return js;
 
                         }
+
                     }
 
 
@@ -284,8 +333,10 @@ $(function() {
                         id: "parkingId",
                         fields: {
                         	parkingId: {type: "number", editable: false, nullable: true },
+                            slotUsedId : {type: "number"},
 
                             billId : {type: "number"},
+                            finalBillId : {type: "number"},
                             parkingBillRow : {type: "string"},
                             status : {type: "string"},
 
@@ -337,22 +388,24 @@ $(function() {
 
             columns: [
 
-                { field: "parkingId", title: "Bill Id", width: 40},
+                { field: "billId", title: "Bill Id", width: 20},
+                { field: "slotUsedId", title: "Slot Used Id", width: 30},
+                { field: "finalBillId", title: "Final Bill Id", width: 25},
 
-                { field: "billId", title: "Parking Bill", width: 120
+                { field: "billId", title: "Parking Bill", width: 90
                 	, template: '<a href="${root}parkingBill/edit/#=billId#">#=parkingBillRow#</a>'
             	},
-            	{ field: "status", title: "Status", width: 60, attributes: {"class" : "div#= status #" }, filterable: false
+            	{ field: "status", title: "Status", width: 30, attributes: {"class" : "div#= status #" }, filterable: false
            		},
-                { field: "slotId", title: "Location", width: 120
+                { field: "slotId", title: "Location", width: 40
            			, template: '<a href="${root}parkingSlot/edit/#=slotId#">#=parkingSlotRow#</a>'
             	},
-                { field: "userId", title: "User", width: 80, template: '<a href="${root}allusers/view/#=userId#">#=userRow#</a>'
+                { field: "userId", title: "User", width: 50, template: '<a href="${root}allusers/view/#=userId#">#=userRow#</a>'
                 	, filterable: {
                     	ui: ddlFilterUserId
 		               	}
             	},
-                { field: "vehicleId", title: "Vehicle", width: 80, template: '#= vehicleRow #'
+                { field: "vehicleId", title: "Vehicle", width: 30, template: '#= vehicleRow #'
             	},
 
                 ],
@@ -393,6 +446,7 @@ $(function() {
 
 
        	}
+        $("#newStatus").val("Filter");
 
 
 

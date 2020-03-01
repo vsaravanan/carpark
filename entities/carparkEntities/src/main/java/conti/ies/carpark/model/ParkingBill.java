@@ -15,7 +15,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import conti.ies.comp.EntityProps;
+import conti.ies.comp.FieldFilter;
 
 @Entity
 public class ParkingBill implements Serializable {
@@ -122,6 +125,7 @@ public class ParkingBill implements Serializable {
 				"(  \r\n" +
 				"	select s.<keyId>, ROW_NUMBER() OVER(<orderByNum>) as rownum  \r\n" +
 				"	from <drivingTable> s  \r\n" +
+				"	<extraTables>\r\n" +
 				"	<where>  \r\n" +
 				")   \r\n" +
 				", s as \r\n" +
@@ -140,9 +144,6 @@ public class ParkingBill implements Serializable {
 				"	<orderBy>";
 
 
-		//Map<String, String> fieldMap = new HashMap<>();
-		//fieldMap.put("entryTimeHHmm", "entryTime");
-
 
 		Map<String, String> classProps = new HashMap<>();
 		classProps.put("keyId", "billId");
@@ -151,7 +152,6 @@ public class ParkingBill implements Serializable {
 		classProps.put("drivingTable", "parkingBill");
 
 		EntityProps ep = new EntityProps(this.getClass());
-		//ep.setFieldMap(fieldMap);
 		ep.setClassProps(classProps);
 
 		return ep;

@@ -8,7 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import conti.ies.comp.EntityProps;
+import conti.ies.comp.FieldFilter;
 
 @Entity
 public class VwParking  implements Serializable {
@@ -28,6 +31,8 @@ public class VwParking  implements Serializable {
 	private String  userRow;
 	private Integer vehicleId;
 	private String  vehicleRow;
+	private Integer slotUsedId;
+	private Integer finalBillId;
 
 
 
@@ -67,16 +72,16 @@ public class VwParking  implements Serializable {
 				", b as\r\n" +
 				"(\r\n" +
 				"	select p.*, \r\n" +
-				"		'Reserved time : ' || to_char(b.entryTimeInReserve, 'DD-Mon-YYYY HH24:MI') || ' - ' || \r\n" +
+				"		to_char(b.entryTimeInReserve, 'DD-Mon-YYYY HH24:MI') || ' - ' || \r\n" +
 				"		 to_char(b.exitTimeInReserve,  'HH24:MI') || ' ,  ' ||\r\n" +
-				"		case when b.entryTime is null then ' ' else 'entry: ' || to_char(b.entryTime, 'DD-Mon-YYYY HH24:MI') || ',  ' end ||\r\n" +
-				"		case when b.exitTime is null then ' ' else 'exit: ' || to_char(b.exitTime, 'DD-Mon-YYYY HH24:MI') || ',  ' end ||\r\n" +
+				"		case when b.entryTime is null then ' ' else 'entry: ' || to_char(b.entryTime, 'HH24:MI') || ',  ' end ||\r\n" +
+				"		case when b.exitTime is null then ' ' else 'exit: ' || to_char(b.exitTime, 'HH24:MI') || ',  ' end ||\r\n" +
 				"		case when b.numMinsParked is null then ' ' else b.numMinsParked || ' mins,  ' end ||\r\n" +
 				"		case when b.charges is null then ' ' else ' S$ ' || b.charges end parkingBillRow,\r\n" +
 				"		b.status\r\n" +
 				" 	from p \r\n" +
 				"	inner join parkingBill b\r\n" +
-				"	on p.billId = b.billId \r\n" +
+				"	on COALESCE(p.finalBillId, p.billId) = b.billId \r\n" +
 				"), u as\r\n" +
 				"(\r\n" +
 				"	select b.*, \r\n" +
@@ -105,6 +110,25 @@ public class VwParking  implements Serializable {
 
 		Map<String, String> fieldMap = new HashMap<>();
 
+		FieldFilter ff1 = new FieldFilter(
+				"string",
+				"u",
+				"slotused",
+				"s.slotusedid = u.slotusedid"
+		);
+		FieldFilter ff2 = new FieldFilter(
+				"string",
+				"c",
+				"calendar",
+				"u.calendarId = c.calendarId"
+		);
+		Multimap<String, FieldFilter> fieldFilters= ArrayListMultimap.create();
+
+		fieldFilters.put("entryTime", ff1);
+		fieldFilters.put("entryTime", ff2);
+		fieldFilters.put("exitTime", ff1);
+		fieldFilters.put("exitTime", ff2);
+
 
 		Map<String, String> classProps = new HashMap<>();
 		classProps.put("keyId", "parkingId");
@@ -115,6 +139,8 @@ public class VwParking  implements Serializable {
 		EntityProps ep = new EntityProps(this.getClass());
 		ep.setFieldMap(fieldMap);
 		ep.setClassProps(classProps);
+		ep.setFieldFilters(fieldFilters);
+
 
 		return ep;
 
@@ -262,5 +288,19 @@ public class VwParking  implements Serializable {
 		this.vehicleRow = vehicleRow;
 	}
 
+	public Integer getSlotUsedId() {
+		return slotUsedId;
+	}
 
+	public void setSlotUsedId(Integer slotUsedId) {
+		this.slotUsedId = slotUsedId;
+	}
+
+	public Integer getFinalBillId() {
+		return finalBillId;
+	}
+
+	public void setFinalBillId(Integer finalBillId) {
+		this.finalBillId = finalBillId;
+	}
 }

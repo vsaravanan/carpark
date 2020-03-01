@@ -3,732 +3,511 @@ package conti.ies.comp;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import com.google.common.collect.Multimap;
+import com.google.gson.JsonSyntaxException;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import conti.ies.carpark.statics.StaticFuncs;
 
 
-
+@Data
 public class UtilPaging {
 
-	private static final Logger logger = LoggerFactory.getLogger(UtilPaging.class);
+    private static final Logger logger = LoggerFactory.getLogger(UtilPaging.class);
+
+    private static final Map< String, String > likes = new HashMap<>();
+    private static final Map< String, String > dateRange = new HashMap<>();
+    private static Map< String, EntityProps > eps = new HashMap<>();
+
+    private static Map< String, Collection< FieldFilter > > fieldFilters = new HashMap<>();
+    private static List< String > listColumns;
+    private static Map< String, String > dataTypes;
+    private static Map< String, String > fieldMaps;
+    private static final String Q = "'";
 
-//	private static Map<String, Object> dataTypes = new HashMap<>();
-//	private static Map<String, Object> classProps = new HashMap<>();
-	private final static Map<String, String> likes = new HashMap<>();
-	private final static Map<String, String> dateRange = new HashMap<>();
+    static {
+        likes.put("contains", " like '%<value>%'");
+        likes.put("doesnotcontain", " not like '%<value>%'");
+        likes.put("startswith", " like '<value>%'");
+        likes.put("endswith", " like '%<value>'");
 
-	private static Map<String, EntityProps> eps = new HashMap<>();
+        dateRange.put("startswith", " >= ");
+        dateRange.put("endswith", " <= ");
+    }
 
 
+    public static EntityProps populateEntityProps(Class kls) {
+        String className = kls.getSimpleName().toLowerCase();
 
-	static {
-		likes.put("contains", " like '%<value>%'");
-		likes.put("doesnotcontain", " not like '%<value>%'");
-		likes.put("startswith", " like '<value>%'");
-		likes.put("endswith", " like '%<value>'");
+        synchronized (UtilPaging.class) {
+            if (!UtilPaging.eps.containsKey(className)) {
+                EntityProps ep = UtilPaging.getProps(kls);
+                String drivingTable = ep.getClassProps().get("drivingTable");
+                List< String > listColumns = StaticFuncs.getColumns(drivingTable);
+                ep.setListColumns(listColumns);
+                UtilPaging.eps.put(className, ep);
+            }
 
-		dateRange.put("startswith", " >= ");
-		dateRange.put("endswith", " <= ");
-	}
+        }
+        return UtilPaging.eps.get(className);
+    }
 
+    private static EntityProps getProps(Class kls) {
+        //Field[] fields = kls.getDeclaredFields();
+        //final Map<String, String> classProps = new HashMap<>();
+        Object tmpKls = null;
+        EntityProps ep = null;
+        try {
+            tmpKls = kls.newInstance();
+            //String mySql = (String) kls.getMethod("retSql", null).invoke(tmpKls, null);
+            for (Method m : kls.getMethods()) {
+                if (m.getName().startsWith("getEntityProps") && m.getParameterTypes().length == 0) {
+                    ep = (EntityProps) m.invoke(tmpKls);
+                    break;
+                }
+            }
 
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException e1) {
+            e1.printStackTrace();
+        }
 
-	public static EntityProps populateEntityProps(Class kls)
-	{
+        return ep;
+    }
 
+    public static PagingContainer getPaging(Object kendoFilter, Class kls) {
 
-		String className = kls.getSimpleName().toLowerCase();
+        String className = kls.getSimpleName().toLowerCase();
 
-		synchronized(UtilPaging.class){
-			if (! UtilPaging.eps.containsKey(className))
-			{
-				EntityProps ep =  UtilPaging.getProps(kls);
-				String drivingTable = ep.getClassProps().get("drivingTable");
-				List<String> listColumns = StaticFuncs.getColumns(drivingTable);
-				ep.setListColumns(listColumns);
-				UtilPaging.eps.put(className, ep);
-			}
+        if (!eps.containsKey(className))
+            UtilPaging.populateEntityProps(kls);
 
-		}
-		return UtilPaging.eps.get(className);
-	}
+        EntityProps ep = eps.get(className);
 
-	private static EntityProps getProps(Class kls) {
-		//Field[] fields = kls.getDeclaredFields();
-		//final Map<String, String> classProps = new HashMap<>();
-		Object tmpKls = null;
-		EntityProps ep = null;
-		try {
-			tmpKls = kls.newInstance();
-			//String mySql = (String) kls.getMethod("retSql", null).invoke(tmpKls, null);
-			for (Method m : kls.getMethods()) {
-				if (m.getName().startsWith("getEntityProps") && m.getParameterTypes().length == 0) {
-					ep =  (EntityProps) m.invoke(tmpKls);
-					break;
-				}
-			}
+        Gson gson = Common.myGson();
 
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException e1) {
-			e1.printStackTrace();
-		}
+        String mFilter = gson.toJson(kendoFilter);
 
-		return ep;
-	}
+        gListArrayPtr mainFilter = null;
+        try {
+            mainFilter = gson.fromJson(mFilter, gListArrayPtr.class);
+        } catch (Exception e) {
 
-	private enum Paths {Manual, Kendo}
+        }
 
+        FilterPtrRoot gfrPtr = gson.fromJson(mFilter, FilterPtrRoot.class);
+        String strGfrPtr = gson.toJson(gfrPtr);
 
-	public static PagingContainer getPaging(Object kendoFilter, Class kls) {
+        dataTypes = ep.getDataTypes();
+        listColumns = ep.getListColumns();
 
+        Map< String, String > fieldWhere = new HashMap<>();
+        Multimap< String, FieldFilter > multiFieldFilters = ep.getFieldFilters();
+        fieldFilters = multiFieldFilters.asMap();
 
-		String className = kls.getSimpleName().toLowerCase();
+        // populate field and datatypes from entity class
+        fieldMaps = dataTypes.entrySet().stream()
+                .filter(fieldName -> listColumns.contains(fieldName.getKey().toLowerCase()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-		if (! eps.containsKey(className))
-			UtilPaging.populateEntityProps(kls);
+        // populate field and datatypes from FieldFilters class
+        fieldFilters.forEach((fieldName, cff) -> {
+            fieldMaps.put(fieldName, fieldFilters.get(fieldName).stream().findFirst().orElse(null).getType());
+        });
 
-		EntityProps ep = eps.get(className);
+        String strSort = "";
+        String strOrderByRow = "";
 
-		GsonBuilder builder = new GsonBuilder();
-		Gson gson = builder.create();
+        // Sorting
+        if (gfrPtr.getSort() != null) {
+            for (gSort sort : gfrPtr.getSort()) {
 
-		String mFilter = gson.toJson(kendoFilter);
+                strSort += !strSort.equals("") ? ", " : " order by ";
 
-		//mFilter = "{\"take\":5,\"skip\":0,\"page\":1,\"pageSize\":5,\"sort\":[{\"field\":\"slotUsedId\",\"dir\":\"asc\"}],\"btnSearch\":false,\"fieldFilters\":[{\"field\":\"userId\",\"where\":\" s.userId in (11 ) \"}]}";
-		//mFilter = "{\"take\":5,\"skip\":0,\"page\":1,\"pageSize\":5,\"filter\":{\"logic\":\"and\",\"filters\":[{\"field\":\"slotId\",\"operator\":\"neq\",\"value\":2}]},\"btnSearch\":false,\"fieldFilters\":[{\"field\":\"slotId\",\"where\":\" s.slotId in (2 ) \"},{\"field\":\"userId\",\"where\":\" s.userId in (11 ) \"}]}";
-		//logger.info(mFilter);
-		FilterPtrRoot gfrPtr = gson.fromJson(mFilter, FilterPtrRoot.class);
-		String strGfrPtr = gson.toJson(gfrPtr);
+                String sortField = sort.getField();
 
-		FiltersRoot gfrFilters = gson.fromJson(mFilter, FiltersRoot.class);
-		String strGfrs = gson.toJson(gfrFilters);
+                strSort += " o." + sortField + " " + sort.getDir();
+
+                if (listColumns.contains(sortField.toLowerCase())) {
+                    strOrderByRow += !strOrderByRow.equals("") ? ", " : " order by ";
+                    strOrderByRow += " s." + sortField + " " + sort.getDir();
+
+                }
+
+            }
+        }
+
+        gfrPtr.setOrderBy(strSort);
+        gfrPtr.setOrderByRow(strOrderByRow);
+
+        // list of Field Filters
+        List< gFilter > listmgFilter = new ArrayList();
+
+        for (gFieldFilter ff : gfrPtr.getFieldFilters()) {
+            gFilter tmpgFilter = new gFilter(ff.getField(), "", ff.getWhere());
+            fieldWhere.put(ff.getField(), ff.getWhere());
+            listmgFilter.add(tmpgFilter);
+        }
+
+//		Merge Field Filters into Main Filters
+        if (listmgFilter.size() > 0) {
+            if (mainFilter.getFilter() != null) {
+
+                List cMainFilter = mainFilter.getFilter().getFilters();
+                cMainFilter.addAll(listmgFilter);
+
+            } else {
+                gListArray mgListArray = new gListArray(listmgFilter);
+                mgListArray.setLogic("and");
+                mainFilter.setFilter(mgListArray);
+
+            }
+
+        }
+
+        // send to process filters
+        gWhere gwhere = new gWhere();
+        if (mainFilter.getFilter() != null && mainFilter.getFilter().getFilters().size() > 0) {
+            String strCarr = gson.toJson(mainFilter.getFilter());
+            String logic = mainFilter.getFilter().getLogic();
+            gwhere = processFilters(0, logic, strCarr);
+            logger.info(gwhere.whereclause);
+            logger.info("pause");
+
+        }
+
+
+        gfrPtr.setWhere(gwhere.getWhereclause());
+        gfrPtr.setJoinTables(gwhere.getJoinTables());
+        gfrPtr.setJoinWheres(gwhere.getJoinWheres());
+
+        PagingContainer pc = new PagingContainer();
+        pc.setFpr(gfrPtr);
+        pc.setEp(ep);
+        pc.setMessage(gwhere.getWhereclause());
+
+//		return this values to GenericDao.qryPaging
+        return pc;
+
+    }
+
+
+    public static String getOperator(String operator) {
+        switch (operator.toLowerCase()) {
+            case "eq":
+                return " = ";
+            case "neq":
+                return " != ";
+            case "gte":
+                return " >= ";
+            case "gt":
+                return " > ";
+            case "lte":
+                return " <= ";
+            case "lt":
+                return " < ";
+            default:
+                return operator;
+        }
+    }
+
+    public static String whereClause(gFilter gf, String alias) {
+
+        String myOprVal = null;
+        String myField = gf.getField();
+        String myOpr = getOperator(gf.getOperator());
+        String myVal = gf.getValue();
+
+        logger.info(myField);
+        switch (fieldMaps.get(myField)) {
+            case "string":
+                myOprVal = likes.get(myOpr);
+                if (myOprVal != null) {
+                    myOprVal = myOprVal.replaceAll("<value>", myVal);
+                }
+                break;
+            case "integer":
+                break;
+            case "date":
+                break;
+            case "int":
+                break;
+            case "bigdecimal":
+                myOpr = dateRange.get(myOpr);
+                if (myOpr == null) {
+                    myOpr = getOperator(gf.getOperator());
+                }
+                break;
+
+        }
+
+        switch (fieldMaps.get(myField)) {
+            case "string":
+                if (myOprVal == null) {
+                    myOprVal = myOpr + Q + myVal + Q;
+                }
+                break;
+            case "integer":
+            case "int":
+            case "bigdecimal":
+                myOprVal = myOpr + myVal;
+                break;
+            case "bool":
+                if (myVal.equals("true")) {
+                    myOprVal = myOpr + Q + "t" + Q;
+                } else if (myVal.equals("false")) {
+                    myOprVal = myOpr + Q + "f" + Q;
+                }
+                break;
+            case "date":
+                if (myVal.contains("GMT")) {
+                    Date tmpDt = null;
+
+                    try {
+                        tmpDt = Cons.MMMddyyyyHHmmss.parse(myVal.substring(4, 25));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
+                    myVal = tmpDt.toString();
+                }
+                myOprVal = myOpr + Q + myVal + Q;
+                break;
+
+        }
+
+        String fieldOprVal;
+
+
+        if ("".equals(myOpr)) {
+            fieldOprVal = Common.ltrim(myVal);
+        } else {
+            if (myOprVal == null) {
+                myOprVal = myOpr + myVal;
+            }
+            fieldOprVal = alias + "." + myField + myOprVal;
 
+        }
 
-		@SuppressWarnings("unchecked")
-		Map<String, String> dataTypes = ep.getDataTypes();
-		List<String> listColumns = ep.getListColumns();
-		boolean btnSearch = gfrPtr.isBtnSearch();
-		Map<String, String> fieldWhere =  new HashMap<>();
-		Map<String, FieldFilter> fieldFilters = ep.getFieldFilters();
-		Set<String> joinTables = new HashSet<>();
-		Set<String> joinWheres = new HashSet<>();
 
-		for (gFieldFilter ff : gfrPtr.getFieldFilters()) {
-			fieldWhere.put(ff.getField(), ff.getWhere());
-		}
+        return fieldOprVal;
+    }
+
 
+    public static gWhere processFilters(int level, String logic, String str) {
+        Gson gson = Common.myGson();
+        String tab = StringUtils.repeat("\t", level);
 
-		String strSort = "";
-		String strOrderByRow = "";
+        Set< String > joinTables = new HashSet<>();
+        Set< String > joinWheres = new HashSet<>();
+        Set< String > fields = new HashSet<>();
 
-		if (gfrPtr.getSort() !=  null)
-		{
-			for (gSort sort : gfrPtr.getSort()) {
+        gWhere gwhere = new gWhere();
 
-				strSort += ! strSort.equals("") ? ", " : " order by ";
+        gFilter rgFilter = null;
 
-				String sortField =sort.getField();
+        // parsing for gFilter
+        try {
+            rgFilter = gson.fromJson(str, gFilter.class);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
 
-//				String sortFieldtype = dataTypes.get(sortField);
-//				if (dataTypes.containsKey(sortFieldtype) )
-//					sortField = sortFieldtype;
 
-				strSort += " o." + sortField + " " + sort.getDir();
+        if (rgFilter.getField() != null) {
+            fields.add(rgFilter.getField());
 
-				if (listColumns.contains(sortField.toLowerCase()))
-				{
-					strOrderByRow += ! strOrderByRow.equals("")? ", " : " order by ";
-					strOrderByRow += " s." + sortField + " " + sort.getDir();
 
-				}
+            String fieldName = rgFilter.getField();
+            Collection< FieldFilter > ffs = fieldFilters.get(fieldName);
+//			String myDataType = dataTypes.get(fieldName);
+//			String myOpr = getOperator(mygFilter.getOperator());
+//			String myVal = mygFilter.getValue();
+//			logger.info("(1) " + fieldName + " " + myOpr + " " + myVal);
 
+            String alias = "s";
 
-			}
-		}
-		gfrPtr.setOrderBy(strSort);
+            for (FieldFilter ff : Common.checkIsEmpty(ffs)) {
 
-		gfrPtr.setOrderByRow(strOrderByRow);
+                if (!ff.getAlias().equals("")) {
+                    joinTables.add(" " + ff.getJoinTable() + " " + ff.getAlias());
+                    joinWheres.add(" " + ff.getJoinWhere() + " ");
+                    alias = ff.getAlias();
+                }
 
+            }
 
+            String fieldOprVal = whereClause(rgFilter, alias);
+            fieldOprVal = fieldOprVal.replaceAll("<tab>", tab);
 
-		List<gFilters> parentFltrs = new ArrayList<>();
-		String parentLogic = "and";
+//			logger.info(" 1 " + sb.toString());
+            gwhere.setWhereclause(fieldOprVal);
+            gwhere.setJoinTables(joinTables);
+            gwhere.setJoinWheres(joinWheres);
+            gwhere.setFields(fields);
+            return gwhere;
 
-		String whereParent = "";
-		if (gfrPtr.getFilter() != null ) {
 
-			// remove empty elements from child filters
-			Iterator<gFilter> iterFltrs = gfrFilters.getFilter().getFilters().iterator();
-			while (iterFltrs.hasNext()) {
-				if (iterFltrs.next().getField() == null) {
-					iterFltrs.remove();
-				}
-			}
+        }
 
-			// add child filters to parent filter
-			if (gfrFilters.getFilter().getFilters().size() > 0)
-			{
-				List<gFilters> gfrs = gfrPtr.getFilter().getFilters();
-				gfrs.add(gfrFilters.getFilter());
-			}
+        // parsing for gListArray
+        gListArray rgListArray = null;
 
-			gFilterPtr fltrRt = gfrPtr.getFilter();
+        try {
+            rgListArray = gson.fromJson(str, gListArray.class);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
 
+        try {
 
-			// set parentFilters and parentLogic for outer loop
-			parentFltrs = fltrRt.getFilters();
-			parentLogic = fltrRt.getLogic();
+            if (rgListArray.getFilters() != null) {
 
-			// remove empty elements from parentFilters
-			Iterator<gFilters> iterFltrRt = parentFltrs.iterator();
-			while (iterFltrRt.hasNext()) {
-				if (iterFltrRt.next().getLogic() == null) {
-					iterFltrRt.remove();
-				}
-			}
+                String retVal = "";
+                StringBuilder sb = new StringBuilder();
 
-		}
+                for (Object obj : rgListArray.getFilters()) {
 
-		List<String> listFields =  new ArrayList<>();
+                    if (sb.length() > 0) {
+                        sb.append("\n <tab> \t " + rgListArray.getLogic() + " ");
+                    } else {
+                        sb.append("\n <tab> \t \t ");
+                    }
 
-		for (gFilters mnFltrs : parentFltrs) {
-			for (gFilter chFltrs : mnFltrs.getFilters()) {
-				listFields.add(chFltrs.getField());
-			}
-		}
+                    gWhere cgwhere = processFilters(level + 1, rgListArray.getLogic(), gson.toJson(obj));
+                    retVal = cgwhere.whereclause;
+                    retVal = retVal.replaceAll("<tab>", tab);
+                    sb.append(retVal);
+                    Common.replaceAll(sb, "<tab>", tab);
 
+                    gwhere.joinTables.addAll(cgwhere.joinTables);
+                    gwhere.joinWheres.addAll(cgwhere.joinWheres);
+                    gwhere.fields.addAll(cgwhere.fields);
 
+//						logger.info(" 2 " + sb.toString());
 
-		for (Map.Entry<String, String> entry : fieldWhere.entrySet()) {
-			String tmpField = "{\"logic\":\"and\",\"filters\":[{\"field\":\"<fieldName>\",\"operator\":\"\",\"value\":\"\"}]}";
+                }
 
-			if (!listFields.contains(entry.getKey()))
-			{
+                String newVal = "\n <tab> ( " +
+                        sb.toString() +
+                        "\n <tab> ) ";
+                newVal = newVal.replaceAll("<tab>", tab);
 
-				String tmpField2 = tmpField.replace("<fieldName>", entry.getKey());
+//				logger.info(" 3 " + newVal);
 
-				gFilters gltrs = gson.fromJson( tmpField2, gFilters.class);
+                gwhere.setWhereclause(newVal);
 
-				parentFltrs.add(gltrs);
-			}
+                return gwhere;
 
 
-		}
+            }
 
-
-		if (parentFltrs != null )
-		{
-
-			// parentFilters loop
-			for (gFilters mnFltrs : parentFltrs) {
-				String whereChild = "";
-				String childLogic = mnFltrs.getLogic();
-
-					// childFilters loop
-					for (gFilter chFltrs : mnFltrs.getFilters()) {
-
-							String fieldName = chFltrs.getField();
-							String fieldMap = null;
-							FieldFilter ff = null;
-							String strCondition = "";
-							Paths myPath = Paths.Kendo;
-
-							if (btnSearch)
-							{
-								if (fieldMap == null)
-								{
-									ff = fieldFilters.get(fieldName);
-									if (ff != null)
-									{
-										fieldMap = ff.getType();
-										if (fieldWhere.size() > 0)
-										{
-											if (fieldWhere.get(fieldName) != null)
-											{
-												strCondition = " ( " + fieldWhere.get(fieldName) + " ) ";
-												myPath = Paths.Manual;
-											}
-										}
-									}
-								}
-
-							}
-
-
-							if (strCondition.equals(""))
-							{
-								if (listColumns.contains(fieldName.toLowerCase()))
-								{
-									fieldMap = dataTypes.get(fieldName);
-									myPath = Paths.Kendo;
-								}
-							}
-
-							if (fieldMap == null)
-							{
-								ff = fieldFilters.get(fieldName);
-								if (ff != null)
-								{
-									fieldMap = ff.getType();
-									if (fieldWhere.size() > 0)
-									{
-										if (fieldWhere.get(fieldName) != null)
-										{
-											strCondition = " ( " + fieldWhere.get(fieldName) + " ) ";
-											myPath = Paths.Manual;
-										}
-									}
-								}
-							}
-
-
-							String myOpr = getOperator(chFltrs.getOperator());
-							String myVal = chFltrs.getValue();
-							String Q = "'";
-							logger.info("myOpr : " + myOpr + ", myVal : " + myVal + ", parentLogic : " + parentLogic + ", myPath : " + myPath );
-
-							if (myPath == Paths.Kendo)  // strCondition.equals("")
-							{
-
-								if (fieldMap == null)
-								{
-									if (dataTypes.get(fieldMap) !=  null)
-									{ // this block can be removed after verifying getEntryTimeHHmm in Calendar
-										fieldName = fieldMap;
-										// get fieldMap using field alias
-										fieldMap = dataTypes.get(fieldName);
-									}
-								}
-
-								logger.info("myOpr : " + myOpr + ", myVal : " + myVal + ", fieldMap : " + fieldMap  );
-
-								if (myOpr == null)
-								{ // this block for starts with, contains, end with, not equal to, etc,
-									if (fieldMap != null)
-									{
-										switch (fieldMap) {
-										case "string":
-											strCondition = likes.get(chFltrs.getOperator()).replace("<value>", myVal);
-											break;
-										case "integer":
-										case "date":
-										case "int":
-										case "bigdecimal":
-											myOpr = dateRange.get(chFltrs.getOperator());
-											break;
-										case "bool":
-											if (myVal.equals("true"))
-												strCondition = myOpr + "'t'";
-											else if (myVal.equals("false"))
-												strCondition = myOpr + "'f'";
-											break;
-										}
-									}
-								}
+        } catch (JsonSyntaxException e) {
+        }
 
+        return null;
 
-								logger.info("strCondition : " + strCondition  + ", myOpr : " + myOpr  + ", myVal : " + myVal);
 
-
-								if (strCondition.equals("") && fieldMap != null && myOpr != null)
-								{
-									// it is also expecting myOpr != null and myVal != null
-
-									switch (fieldMap) {
-									case "string":
-										//if (strCondition ! equals "")
-										strCondition = myOpr + Q + myVal + Q;
-										break;
-									case "integer":
-									case "int":
-									case "bigdecimal":
-										strCondition = myOpr + myVal;
-										break;
-									case "date":
-
-									if (myVal.contains("GMT"))
-										{
-											//System.out.println(" timestamp " + myVal.substring(0, 25));
-											Date tmpDt = null;
-
-											try {
-												tmpDt = Cons.MMMddyyyyHHmmss.parse(myVal.substring(4, 25));
-											} catch (ParseException e) {
-												e.printStackTrace();
-											}
-
-											myVal = tmpDt.toString();
-										}
-											strCondition = myOpr + Q + myVal + Q;
-										break;
-
-									} // switch
-
-								}
-
-								logger.info("strCondition : " + strCondition  + ", myVal : " + myVal  );
-
-							} // Paths.Kendo
-
-
-							if (! strCondition.equals("")) {
-
-								String alias = "s";
-
-								if (ff != null)
-								{
-									if (! ff.getAlias().equals(""))
-									{ 	// it should be at the bottom of the block
-										// bcoz it is depending to ! strCondition.equals("")
-										// which cannot be determined early.
-
-										joinTables.add(" " + ff.getJoinTable() + " " + ff.getAlias());
-										joinWheres.add(" " + ff.getJoinWhere() + " ");
-										alias = ff.getAlias();
-									}
-
-								}
-								if (myPath == Paths.Kendo)
-									strCondition = " ( " + alias + "." + fieldName + " " + strCondition + " ) ";
-
-
-
-								if (whereChild.equals(""))
-									whereChild = strCondition;
-								else {
-									if (childLogic.equals("or"))
-										whereChild = " ( " + whereChild + " " + childLogic + "   " + strCondition
-												+ "  ) ";
-									else
-										whereChild = "   " + whereChild + " " + childLogic + "   " + strCondition
-												+ "    ";
-								}
-
-								logger.info("strCondition : " + strCondition  );
-
-								logger.info("whereChild : " + whereChild);
-
-							}
-
-
-
-					} // childLogic != null
-
-
-					if (parentLogic == null) {
-						whereParent = whereChild;
-						break;
-					} else {
-						if (! whereChild.equals("") )
-						{
-							if (whereParent.equals(""))
-								whereParent = whereChild;
-							else {
-								if (parentLogic.equals("or"))
-									whereParent = " ( " + whereParent + " " + parentLogic + "   " + whereChild + "   )";
-								else
-									whereParent = "   " + whereParent + " " + parentLogic + "   " + whereChild + "   ";
-							}
-
-						}
-					}
-
-					logger.info("parentLogic : " + parentLogic);
-
-			} // mnFltrs loop
-
-		}
-
-		//if (whereParent ! quals "")
-		//	whereParent = " where "  + whereParent;
-		logger.info("whereParent  : " + whereParent);
-		gfrPtr.setWhere(whereParent);
-		gfrPtr.setJoinTables(joinTables);
-		gfrPtr.setJoinWheres(joinWheres);
-
-
-		PagingContainer pc = new PagingContainer();
-		pc.setFpr(gfrPtr);
-		pc.setEp(ep);
-
-		return pc;
-
-	}
-
-
-	public static String getOperator(String operator) {
-		switch (operator.toLowerCase()) {
-		case "eq":
-			return " = ";
-		case "neq":
-			return " != ";
-		case "gte":
-			return " >= ";
-		case "gt":
-			return " > ";
-		case "lte":
-			return " <= ";
-		case "lt":
-			return " < ";
-		default:
-			return null;
-		}
-	}
-
-
-	public static Map<String, EntityProps> getEps() {
-		return eps;
-	}
-
-
-	public static void setEps(Map<String, EntityProps> eps) {
-		UtilPaging.eps = eps;
-	}
-
-
+    }
 
 }
 
+@Data
 class gSort {
-	private String field;
-	private String dir;
+    private String field;
+    private String dir;
 
-	public String getField() {
-		return field;
-	}
-
-	public void setField(String field) {
-		this.field = field;
-	}
-
-	public String getDir() {
-		return dir;
-	}
-
-	public void setDir(String dir) {
-		this.dir = dir;
-	}
 }
 
+@Data
 class gFilter {
 
-	private String field;
-	private String operator;
-	private String value;
+    private String field;
+    private String operator;
+    private String value;
 
-	public gFilter() {}
+    public gFilter() {
+    }
 
-	public gFilter(String field, String operator, String value) {
-		super();
-		this.field = field;
-		this.operator = operator;
-		this.value = value;
-	}
+    public gFilter(String field, String operator, String value) {
+        super();
+        this.field = field;
+        this.operator = operator;
+        this.value = value;
+    }
 
-	public String getField() {
-		return field;
-	}
-
-	public void setField(String field) {
-		this.field = field;
-	}
-
-	public String getOperator() {
-		return operator;
-	}
-
-	public void setOperator(String operator) {
-		this.operator = operator;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
 
 }
 
-
-
-class gFilters {
-
-	public gFilters() {}
-
-	public gFilters(String logic, List<gFilter> filters) {
-		super();
-		this.logic = logic;
-		this.filters = filters;
-	}
-
-	private String logic;
-
-	private List<gFilter> filters;
-
-	public String getLogic() {
-		return logic;
-	}
-
-	public void setLogic(String logic) {
-		this.logic = logic;
-	}
-
-	public List<gFilter> getFilters() {
-		return filters;
-	}
-
-	public void setFilters(List<gFilter> filters) {
-		this.filters = filters;
-	}
-
-}
-
+@Data
 class gFieldFilter {
 
-	private String field;
-
-	private String where;
-
-	public String getField() {
-		return field;
-	}
-	public void setField(String field) {
-		this.field = field;
-	}
-	public String getWhere() {
-		return where;
-	}
-	public void setWhere(String where) {
-		this.where = where;
-	}
+    private String field;
+    private String where;
 
 }
 
-/*class gListFieldFilter {
-	private List<gFieldFilter> listFF;
-}
-*/
-class gFilterPtr {
-	private String logic;
+@Data
+abstract class gLogic {
 
-	private List<gFilters> filters;
-
-	public String getLogic() {
-		return logic;
-	}
-
-	public void setLogic(String logic) {
-		this.logic = logic;
-	}
-
-	public List<gFilters> getFilters() {
-		return filters;
-	}
-
-	public void setFilters(List<gFilters> filters) {
-		this.filters = filters;
-	}
+    private String logic;
 
 }
 
-/*
- *
- *
- * class gFilterPtrRoot {
- *
- * private int skip;
- *
- * private int pageSize;
- *
- * private List<gSort> sort;
- *
- * private gFilterPtr filter;
- *
- *
- * public gFilterPtr getFilter() { return filter; }
- *
- * public void setFilter(gFilterPtr filter) { this.filter = filter; }
- *
- * public int getSkip() { return skip; }
- *
- * public void setSkip(int skip) { this.skip = skip; }
- *
- * public int getPageSize() { return pageSize; }
- *
- * public void setPageSize(int pageSize) { this.pageSize = pageSize; }
- *
- * public List<gSort> getSort() { return sort; }
- *
- * public void setSort(List<gSort> sort) { this.sort = sort; }
- *
- *
- * }
- *
- * class gFiltersRoot {
- *
- * private int skip;
- *
- * private int pageSize;
- *
- * private List<gSort> sort;
- *
- * private gFilters filter;
- *
- * public gFilters getFilter() { return filter; }
- *
- * public void setFilter(gFilters filter) { this.filter = filter; }
- *
- * public int getSkip() { return skip; }
- *
- * public void setSkip(int skip) { this.skip = skip; }
- *
- * public int getPageSize() { return pageSize; }
- *
- * public void setPageSize(int pageSize) { this.pageSize = pageSize; }
- *
- * public List<gSort> getSort() { return sort; }
- *
- * public void setSort(List<gSort> sort) { this.sort = sort; }
- *
- * }
- *
- *
- */
+
+@Data
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+class gFilters extends gLogic {
+
+    private List< gFilter > filters;
+
+}
+
+
+@Data
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+class gFilterPtr extends gLogic {
+
+    private List< gFilters > filters;
+
+}
+
+@Data
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+class gListArray extends gLogic {
+
+    private List filters;
+
+}
+
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+class gListArrayPtr extends gLogic {
+
+    private gListArray filter;
+
+}
+
+@Data
+class gWhere {
+    String whereclause;
+    Set< String > joinTables = new HashSet<>();
+    Set< String > joinWheres = new HashSet<>();
+    Set< String > fields = new HashSet<>();
+}
 
 
 
-// String mFilter =
-// "
-// {\"take\":15,\"skip\":0,\"page\":1,\"pageSize\":15,\"sort\":[{\"field\":\"entryTime\",\"dir\":\"desc\"}],\"filter\":{\"logic\":\"and\",\"filters\":[{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"1\"}]}}
-// ";
-// "
-// {\"take\":15,\"skip\":0,\"page\":1,\"pageSize\":15,\"sort\":[{\"field\":\"entryTime\",\"dir\":\"desc\"}],\"filter\":{\"logic\":\"and\",\"filters\":[{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"1\"},{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"2\"}]}}
-// " ;
-// "
-// {\"take\":15,\"skip\":0,\"page\":1,\"pageSize\":15,\"sort\":[{\"field\":\"entryTime\",\"dir\":\"desc\"}],\"filter\":{\"logic\":\"and\",\"filters\":[{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"1\"},{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"2\"},{\"field\":\"entryDate\",\"operator\":\"eq\",\"value\":\"2015-09-30T16:00:00.000Z\"}]}}
-// " ;
-// "
-// {\"take\":15,\"skip\":0,\"page\":1,\"pageSize\":15,\"sort\":[{\"field\":\"entryTime\",\"dir\":\"desc\"}],\"filter\":{\"logic\":\"and\",\"filters\":[{\"field\":\"entryDate\",\"operator\":\"eq\",\"value\":\"2015-09-30T16:00:00.000Z\"},{\"logic\":\"or\",\"filters\":[{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"1\"},{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"2\"}]}]}}
-// ";
-// "
-// {\"take\":15,\"skip\":0,\"page\":1,\"pageSize\":15,\"sort\":[{\"field\":\"entryTime\",\"dir\":\"desc\"}],\"filter\":{\"logic\":\"and\",\"filters\":[{\"logic\":\"or\",\"filters\":[{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"1\"},{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"2\"}]},{\"logic\":\"or\",\"filters\":[{\"field\":\"entryDate\",\"operator\":\"eq\",\"value\":\"2015-09-30T16:00:00.000Z\"},{\"field\":\"entryDate\",\"operator\":\"eq\",\"value\":\"2015-10-14T16:00:00.000Z\"}]}]}}
-// ";
-// "
-// {\"take\":15,\"skip\":0,\"page\":1,\"pageSize\":15,\"sort\":[{\"field\":\"entryTime\",\"dir\":\"desc\"}],\"filter\":{\"logic\":\"and\",\"filters\":[{\"logic\":\"or\",\"filters\":[{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"1\"},{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"2\"}]},{\"logic\":\"or\",\"filters\":[{\"field\":\"entryDate\",\"operator\":\"eq\",\"value\":\"2015-09-30T16:00:00.000Z\"},{\"field\":\"entryDate\",\"operator\":\"eq\",\"value\":\"2015-10-14T16:00:00.000Z\"}]},{\"logic\":\"and\",\"filters\":[{\"field\":\"id\",\"operator\":\"startswith\",\"value\":\"7580\"},{\"field\":\"id\",\"operator\":\"endswith\",\"value\":\"7583\"}]}]}}
-// " ;
