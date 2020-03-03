@@ -205,8 +205,8 @@ $(function() {
 						entryDateDdMMMyyyy : function() {
 							return kendo.toString(new Date(this.entryDate),'dd-MMM-yyyy');
 						},
-                        entryTimeHHmm : function() {
-                        	return kendo.toString(new Date(this.entryTime),"HH:mm");
+                        entryTimeHHmm2 : function() {
+                            return kendo.toString(new Date ( this.entryTime + new Date(this.entryTime).getTimezoneOffset() * 60 * 1000 ), 'HH:mm')
                         }
 
                     }
@@ -236,12 +236,10 @@ $(function() {
             columns: [
                 { field: "calendarId", title: "Calendar id", width: 80  },
                 { field: "entryDate", title: "Entry date" , template: "#= entryDateDdMMMyyyy() #", width: 130  },
-                 { field: "entryTime", title: "Entry time", width: 170,  template: "#= entryTimeHHmm() #",
-                    filterable: {
-                        ui: "datetimepicker"
-                    }
+                 { field: "entryTime", title: "Entry time", width: 170 , template: "#= entryTimeHHmm2() #" 
+
                 },
-                { field: "exitTime", title: "Exit time",  format : "{0:HH:mm}", width: 100,
+                { field: "exitTime", title: "Exit time",  format : "{0:HH:mm}", width: 100, 
                     filterable: {
                         ui: "datetimepicker"
                     }
