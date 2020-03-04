@@ -410,7 +410,7 @@ $(function() {
     
     window.isValidURL = isValidURL;    
 
-    $("#describeMe").click(function (e) {
+    $('[id^=describeMe]').click(function (e) {
         //event.preventDefault();
 
         var thisBtn = $(this);

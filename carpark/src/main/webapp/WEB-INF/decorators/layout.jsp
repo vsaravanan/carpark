@@ -70,7 +70,7 @@
 	            <li><a href="${root}allusers" >User</a></li>
 		</sec:authorize> --%>
 
-		<sec:authorize access="hasRole('ROLE_Internal')">
+		<sec:authorize access="hasAnyRole('ROLE_Internal','ROLE_Admin')">
 	            <li><a href="${root}vehicle">Vehicle</a></li>
 			<li><a href="${root}parkingSlot">ParkingSlot</a></li>
 	            <li><a href="${root}calendar">Calendar</a></li>
