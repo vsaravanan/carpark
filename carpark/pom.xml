@@ -279,7 +279,10 @@
 						<phase>install</phase>
 						<configuration>
 							<target>
-								<copy file="target/${project.name}.war" tofile="C:/java/tomcat9/webapps/${project.name}.war"/>
+<!--								<copy file="target/${project.name}.war" tofile="C:/java/tomcat9/webapps/${project.name}.war"/>-->
+								<copy file="target/${project.name}.war" tofile="/opt/tumcat/latest/webapps/${project.name}.war"/>
+
+
 							</target>
 						</configuration>
 						<goals>

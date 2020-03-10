@@ -97,7 +97,13 @@ public class HibernateConfig {
     static public PooledPBEStringEncryptor stringEncryptor(@Autowired Environment env) {
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-        config.setPassword(StringUtils.stripEnd(env.getProperty("jasypt.encryptor.password"),""));
+
+        String jasee = env.getProperty("jasypt.encryptor.password");
+        if (StringUtils.isBlank(jasee)) {
+            jasee = System.getenv("jasypt_encryptor_password");
+        }
+        jasee = StringUtils.stripEnd(jasee, "");
+        config.setPassword(jasee);
         config.setAlgorithm(env.getProperty("security.password.algorithm"));
         config.setKeyObtentionIterations("1000");
         config.setPoolSize("1");
@@ -110,3 +116,4 @@ public class HibernateConfig {
 
 
 }
+

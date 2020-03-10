@@ -38,6 +38,15 @@ public class CarparkApp {
                 }
                 break;
 
+            } else if(arg.contains("jasypt_encryptor_password")) {
+                String[] values = arg.split("jasypt_encryptor_password=");
+                Integer pos = 0;
+                if (values.length > 1) {
+                    String somevalue = values[1];
+                    System.setProperty("jasypt.encryptor.password", somevalue);
+                }
+                break;
+
             }
         }
 
