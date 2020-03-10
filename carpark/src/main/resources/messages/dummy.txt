@@ -1,0 +1,8 @@
+Sample Output:
+
+5. insert into ENQUIRY_APPLICANT_DETAILS (ID, INCLUDED_IN_QUOTE, APPLICANT_ID, TERRITORY_ID, ENQUIRY_ID, ELIGIBLE_FOR_COVER) values (7, 1, 11, 1, 2, 0)
+10 Oct 2013 16:21:22 4953 [main] INFO  jdbc.resultsettable  - |---|--------|--------|-----------|----------|---------|-------|
+10 Oct 2013 16:21:22 4953 [main] INFO  jdbc.resultsettable  - |ID |CREATED |DELETED |CODESET_ID |NAME      |POSITION |PREFIX |
+10 Oct 2013 16:21:22 4953 [main] INFO  jdbc.resultsettable  - |---|--------|--------|-----------|----------|---------|-------|
+10 Oct 2013 16:21:22 4953 [main] INFO  jdbc.resultsettable  - |2  |null    |null    |1          |Country 2 |1        |60     |
+10 Oct 2013 16:21:22 4953 [main] INFO  jdbc.resultsettable  - |---|--------|--------|-----------|----------|---------|-------|

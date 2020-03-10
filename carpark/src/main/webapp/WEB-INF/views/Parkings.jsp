@@ -393,7 +393,7 @@ $(function() {
                 { field: "finalBillId", title: "Final Bill Id", width: 25},
 
                 { field: "billId", title: "Parking Bill", width: 90
-                	, template: '<a href="${root}parkingBill/edit/#=billId#">#=parkingBillRow#</a>'
+                	, template: '<a href="${root}parkingBill/edit/#= finalBillId ? finalBillId : billId #">#=parkingBillRow#</a>'
             	},
             	{ field: "status", title: "Status", width: 30, attributes: {"class" : "div#= status #" }, filterable: false
            		},

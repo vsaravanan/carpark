@@ -1,8 +1,6 @@
 package conti.ies.carpark.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import conti.ies.carpark.statics.StaticFuncs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -15,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import conti.ies.carpark.statics.StaticFuncs;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @SessionAttributes("userId")
@@ -38,6 +37,7 @@ public class LoginController {
 		logger.info("Welcome userId " + userId);
 		if (userId == null)
 			userId = StaticFuncs.getUserName();
+		logger.info("Welcome userId " + userId);
 		model.addAttribute("userId", userId);
 		return "welcome";
 	}
@@ -55,7 +55,7 @@ public class LoginController {
 		return "accessDenied";
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 	public String loginPage() {
 		return "login";
 	}

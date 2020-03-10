@@ -1,9 +1,13 @@
 package conti.ies.carpark.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import conti.ies.carpark.dao.ICarparkStageDao;
+import conti.ies.carpark.model.CarparkStage;
+import conti.ies.carpark.model.IPrepareAndExecute;
+import conti.ies.carpark.model.User;
+import conti.ies.carpark.service.CommonService;
+import conti.ies.carpark.service.UploadCarparkService;
+import conti.ies.carpark.statics.StaticFuncs;
+import conti.ies.comp.FileBean;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,14 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import conti.ies.carpark.dao.ICarparkStageDao;
-import conti.ies.carpark.model.CarparkStage;
-import conti.ies.carpark.model.IPrepareAndExecute;
-import conti.ies.carpark.model.User;
-import conti.ies.carpark.service.CommonService;
-import conti.ies.carpark.service.UploadCarparkService;
-import conti.ies.carpark.statics.StaticFuncs;
-import conti.ies.comp.FileBean;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UploadCarparkController {

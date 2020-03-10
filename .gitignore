@@ -13,3 +13,7 @@ test
 RemoteSystemsTempFiles
 Servers
 zips
+/carpark/.idea
+/carpark/logs
+/carpark/out
+/carpark/lib

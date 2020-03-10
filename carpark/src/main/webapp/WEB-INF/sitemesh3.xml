@@ -1,6 +1,6 @@
 <sitemesh>
     <mapping path="/*" decorator="/WEB-INF/decorators/layout.jsp"/>
     <mapping path="/download/*"  exclude="true"/>
-    <!-- decorator="/WEB-INF/decorators/fullPageLayout.jsp" -->
-  
+    <mapping path="/swagger-ui.html"  exclude="true"/>
+
 </sitemesh>

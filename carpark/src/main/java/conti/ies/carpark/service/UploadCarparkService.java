@@ -1,22 +1,16 @@
 package conti.ies.carpark.service;
 
+import conti.ies.comp.Cons;
+import conti.ies.comp.FileBean;
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.DateUtil;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-
-import conti.ies.comp.Cons;
-import conti.ies.comp.FileBean;
 
 public class UploadCarparkService {
 
@@ -46,11 +40,11 @@ public class UploadCarparkService {
 					mrow.add("");
 				} else {
 					switch (cell.getCellType()) {
-					case Cell.CELL_TYPE_STRING:
+					case STRING:
 						// log(k+cell.getStringCellValue());
 						mrow.add(cell.getStringCellValue());
 						break;
-					case Cell.CELL_TYPE_NUMERIC:
+					case NUMERIC:
 						if (DateUtil.isCellDateFormatted(cell)) {
 							// log(k+""+cell.getDateCellValue()+"");
 							mrow.add(Cons.ddMMMyyyy.format(cell.getDateCellValue()));
@@ -59,19 +53,19 @@ public class UploadCarparkService {
 							mrow.add(cell.getNumericCellValue() + "");
 						}
 						break;
-					case Cell.CELL_TYPE_BOOLEAN:
+					case BOOLEAN:
 						// log(k+""+cell.getBooleanCellValue()+"");
 						mrow.add(cell.getBooleanCellValue() + "");
 						break;
-					case Cell.CELL_TYPE_FORMULA:
+					case FORMULA:
 						// log(k+cell.getCellFormula());
 
 						switch (cell.getCachedFormulaResultType()) {
-						case Cell.CELL_TYPE_STRING:
+						case STRING:
 							// log(k+cell.getStringCellValue());
 							mrow.add(cell.getStringCellValue());
 							break;
-						case Cell.CELL_TYPE_NUMERIC:
+						case NUMERIC:
 							if (DateUtil.isCellDateFormatted(cell)) {
 								// log(k+""+cell.getDateCellValue()+"");
 								mrow.add(Cons.ddMMMyyyy.format(cell.getDateCellValue()));
@@ -80,7 +74,7 @@ public class UploadCarparkService {
 								mrow.add(cell.getNumericCellValue() + "");
 							}
 							break;
-						case Cell.CELL_TYPE_BOOLEAN:
+						case BOOLEAN:
 							// log(k+""+cell.getBooleanCellValue()+"");
 							mrow.add(cell.getBooleanCellValue() + "");
 							break;

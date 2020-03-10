@@ -1,0 +1,12 @@
+INSERT INTO userrole
+(roleid, roletype, accessto)
+VALUES(25, NULL, '/v2/api-docs');
+INSERT INTO userrole
+(roleid, roletype, accessto)
+VALUES(26, NULL, '/configuration/**');
+INSERT INTO userrole
+(roleid, roletype, accessto)
+VALUES(27, NULL, '/swagger*/**');
+INSERT INTO userrole
+(roleid, roletype, accessto)
+VALUES(28, NULL, '/webjars/**');

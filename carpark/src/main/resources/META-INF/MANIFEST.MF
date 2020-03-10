@@ -1,0 +1,53 @@
+Manifest-Version: 1.0
+Main-Class: conti.ies.carpark.config.CarparkApp
+Class-Path: poi-ooxml-schemas-4.1.2.jar logback-classic-1.2.3.jar spring
+ -core-5.2.4.RELEASE.jar bootstrap-4.4.1-1.jar spring-boot-starter-tomca
+ t-2.2.5.RELEASE.jar jquery-3.4.1.jar kendojar-2012.3.1322.jar hibernate
+ -commons-annotations-5.1.0.Final.jar log4j-api-2.12.1.jar jakarta.trans
+ action-api-1.3.3.jar spring-data-jpa-2.2.5.RELEASE.jar jakarta.xml.bind
+ -api-2.3.2.jar postgresql-42.2.10.jar springfox-swagger-ui-2.9.2.jar co
+ mmons-math3-3.6.1.jar txw2-2.3.2.jar spring-boot-starter-web-2.2.5.RELE
+ ASE.jar tomcat-embed-el-9.0.31.jar jasypt-spring-boot-3.0.2.jar springf
+ ox-spi-2.9.2.jar slf4j-api-1.7.30.jar hibernate-validator-6.0.18.Final.
+ jar jackson-core-2.10.2.jar spring-boot-starter-json-2.2.5.RELEASE.jar 
+ failureaccess-1.0.1.jar spring-boot-starter-jdbc-2.2.5.RELEASE.jar spri
+ ng-orm-5.2.4.RELEASE.jar popper.js-1.14.3.jar spring-security-acl-5.2.2
+ .RELEASE.jar springfox-schema-2.9.2.jar mapstruct-1.2.0.Final.jar hiber
+ nate-core-5.4.12.Final.jar poi-ooxml-4.1.2.jar json-20190722.jar dom4j-
+ 2.1.1.jar jakarta.persistence-api-2.2.3.jar guava-28.2-jre.jar jakarta.
+ activation-api-1.2.2.jar spring-boot-starter-2.2.5.RELEASE.jar jakarta.
+ validation-api-2.0.2.jar poi-4.1.2.jar spring-webmvc-5.2.4.RELEASE.jar 
+ istack-commons-runtime-3.0.8.jar classmate-1.5.1.jar swagger-annotation
+ s-1.5.20.jar spring-security-web-5.3.0.RELEASE.jar stax-ex-1.8.1.jar sp
+ ring-tx-5.2.4.RELEASE.jar tomcat-embed-websocket-9.0.31.jar lombok-1.18
+ .12.jar javax.servlet.jsp.jstl-api-1.2.2.jar spring-jcl-5.2.4.RELEASE.j
+ ar jboss-logging-3.4.1.Final.jar ecj-3.18.0.jar tomcat-embed-jasper-9.0
+ .31.jar javassist-3.24.0-GA.jar jsp-api-2.2.jar spring-boot-starter-aop
+ -2.2.5.RELEASE.jar springfox-core-2.9.2.jar spring-security-core-5.2.2.
+ RELEASE.jar spring-expression-5.2.4.RELEASE.jar spring-web-5.2.4.RELEAS
+ E.jar jackson-datatype-jsr310-2.10.2.jar jasypt-spring-boot-starter-3.0
+ .2.jar jackson-annotations-2.10.2.jar spring-boot-starter-logging-2.2.5
+ .RELEASE.jar commons-codec-1.13.jar springfox-swagger2-2.9.2.jar spring
+ fox-spring-web-2.9.2.jar spring-aop-5.2.4.RELEASE.jar spring-boot-devto
+ ols-2.2.5.RELEASE.jar listenablefuture-9999.0-empty-to-avoid-conflict-w
+ ith-guava.jar jsr305-3.0.2.jar spring-security-taglibs-5.3.0.RELEASE.ja
+ r spring-boot-2.2.5.RELEASE.jar tomcat-embed-core-9.0.31.jar jackson-da
+ tabind-2.10.2.jar swagger-models-1.5.20.jar log4j-to-slf4j-2.12.1.jar s
+ itemesh-3.0.1.jar FastInfoset-1.2.16.jar error_prone_annotations-2.3.4.
+ jar spring-boot-starter-security-2.2.5.RELEASE.jar jackson-datatype-jdk
+ 8-2.10.2.jar jakarta.annotation-api-1.3.5.jar spring-context-5.2.4.RELE
+ ASE.jar SparseBitSet-1.2.jar gson-2.8.6.jar jaxb-runtime-2.3.2.jar comm
+ ons-lang3-3.9.jar commons-compress-1.19.jar spring-plugin-metadata-1.2.
+ 0.RELEASE.jar spring-security-config-5.2.2.RELEASE.jar spring-boot-star
+ ter-validation-2.2.5.RELEASE.jar aspectjweaver-1.9.5.jar spring-boot-st
+ arter-data-jpa-2.2.5.RELEASE.jar xmlbeans-3.1.0.jar jandex-2.1.1.Final.
+ jar byte-buddy-1.10.8.jar HikariCP-3.4.2.jar jackson-module-parameter-n
+ ames-2.10.2.jar jstl-1.2.jar commons-collections4-4.4.jar spring-boot-a
+ utoconfigure-2.2.5.RELEASE.jar snakeyaml-1.25.jar j2objc-annotations-1.
+ 3.jar spring-beans-5.2.4.RELEASE.jar jasypt-1.9.3.jar checker-qual-2.10
+ .0.jar jul-to-slf4j-1.7.30.jar logback-core-1.2.3.jar spring-jdbc-5.2.4
+ .RELEASE.jar antlr-2.7.7.jar spring-aspects-5.2.4.RELEASE.jar spring-pl
+ ugin-core-1.2.0.RELEASE.jar javax.servlet-api-4.0.1.jar springfox-swagg
+ er-common-2.9.2.jar curvesapi-1.06.jar spring-data-commons-2.2.5.RELEAS
+ E.jar
+

@@ -1,0 +1,553 @@
+//	private static Map<String, Object> dataTypes = new HashMap<>();
+//	private static Map<String, Object> classProps = new HashMap<>();
+//		mFilter = "{\"take\":5.0,\"skip\":0.0,\"page\":1.0,\"pageSize\":5.0,\"btnSearch\":true,\"fieldFilters\":[{\"field\":\"entryTime\",\"where\":\"c.entryTime \\u003e\\u003d \\u002720-Feb-2020 02:00\\u0027\"}]}";
+//		mFilter = "{\"take\":5,\"skip\":0,\"page\":1,\"pageSize\":5,\"filter\":{\"logic\":\"and\",\"filters\":[{\"field\":\"parkingId\",\"operator\":\"eq\",\"value\":48},{\"field\":\"userId\",\"operator\":\"eq\",\"value\":4},{\"logic\":\"or\",\"filters\":[{\"value\":\"Reserved\",\"operator\":\"eq\",\"field\":\"status\"},{\"value\":\"Parked\",\"operator\":\"eq\",\"field\":\"status\"}]}]},\"btnSearch\":false,\"fieldFilters\":[{\"field\":\"slotId\",\"where\":\" s.slotId in (2 ) \"},{\"field\":\"userId\",\"where\":\" s.userId in (4 ) \"}]}";
+//		mFilter = "{\"take\":5.0,\"skip\":0.0,\"page\":1.0,\"pageSize\":5.0,\"btnSearch\":true,\"fieldFilters\":[{\"field\":\"slotId\",\"where\":\" s.slotId in (2 ) \"}]}";
+//		mFilter = "{\"take\":5.0,\"skip\":0.0,\"page\":1.0,\"pageSize\":5.0,\"filter\":{\"logic\":\"and\",\"filters\":[{\"logic\":\"or\",\"filters\":[{\"value\":\"Reserved\",\"operator\":\"eq\",\"field\":\"status\"},{\"value\":\"Parked\",\"operator\":\"eq\",\"field\":\"status\"}]},{\"field\":\"parkingId\",\"operator\":\"eq\",\"value\":47.0},{\"field\":\"slotUsedId\",\"operator\":\"eq\",\"value\":2249.0}]},\"btnSearch\":false,\"fieldFilters\":[{\"field\":\"slotId\",\"where\":\" s.slotId in (2 ) \"},{\"field\":\"userId\",\"where\":\" s.userId in (11 ) \"}]}";
+
+//		mFilter = "{\"take\":5.0,\"skip\":0.0,\"page\":1.0,\"pageSize\":5.0,\"filter\":{\"logic\":\"or\",\"filters\":[{\"value\":\"Reserved\",\"operator\":\"eq\",\"field\":\"status\"},{\"value\":\"Parked\",\"operator\":\"eq\",\"field\":\"status\"}]},\"btnSearch\":false,\"fieldFilters\":[]}"
+
+
+		//mFilter = "{\"take\":5,\"skip\":0,\"page\":1,\"pageSize\":5,\"sort\":[{\"field\":\"slotUsedId\",\"dir\":\"asc\"}],\"btnSearch\":false,\"fieldFilters\":[{\"field\":\"userId\",\"where\":\" s.userId in (11 ) \"}]}";
+		//mFilter = "{\"take\":5,\"skip\":0,\"page\":1,\"pageSize\":5,\"filter\":{\"logic\":\"and\",\"filters\":[{\"field\":\"slotId\",\"operator\":\"neq\",\"value\":2}]},\"btnSearch\":false,\"fieldFilters\":[{\"field\":\"slotId\",\"where\":\" s.slotId in (2 ) \"},{\"field\":\"userId\",\"where\":\" s.userId in (11 ) \"}]}";
+		//logger.info(mFilter);
+
+//
+//		FiltersRoot gfrFilters = gson.fromJson(mFilter, FiltersRoot.class);
+//		String strGfrs = gson.toJson(gfrFilters);
+
+
+//		PagingContainer pc = new PagingContainer();
+//		pc.setFpr(gfrPtr);
+//		pc.setEp(ep);
+//
+//		return pc;
+
+//		fieldFilters.keySet().stream()
+//				.map(x -> {
+//					fieldMaps.put(x, fieldFilters.get(x).stream().findFirst().orElse(null).getType());
+//					return null;
+//				});
+
+//				String sortFieldtype = dataTypes.get(sortField);
+//				if (dataTypes.containsKey(sortFieldtype) )
+//					sortField = sortFieldtype;
+
+//		List<gFilters> parentFltrs = new ArrayList<>();
+//		String parentLogic = "and";
+//
+//		String whereParent = "";
+
+//		if (mainFilter.getFilter() == null) {
+//
+//		}
+
+//		Populate listmgFilter from FieldFilters
+
+
+//		if (mainFilter.getFilter() != null ) {
+
+//			// remove empty elements from child filters
+//			Iterator<gFilter> iterFltrs = gfrFilters.getFilter().getFilters().iterator();
+//			while (iterFltrs.hasNext()) {
+//				if (iterFltrs.next().getField() == null) {
+//					iterFltrs.remove();
+//				}
+//			}
+//
+//			// add child filters to parent filter
+//			if (gfrFilters.getFilter().getFilters().size() > 0)
+//			{
+//				List<gFilters> gfrs = gfrPtr.getFilter().getFilters();
+//				gfrs.add(gfrFilters.getFilter());
+//			}
+
+//			gFilterPtr fltrRt = gfrPtr.getFilter();
+//
+//
+//			// set parentFilters and parentLogic for outer loop
+//			parentFltrs = fltrRt.getFilters();
+//			parentLogic = fltrRt.getLogic();
+//
+//			// remove empty elements from parentFilters
+//			Iterator<gFilters> iterFltrRt = parentFltrs.iterator();
+//			while (iterFltrRt.hasNext()) {
+//				if (iterFltrRt.next().getLogic() == null) {
+//					iterFltrRt.remove();
+//				}
+//			}
+
+//		}
+
+//		List<String> listFields =  new ArrayList<>();
+//
+//		for (gFilters mnFltrs : parentFltrs) {
+//			for (gFilter chFltrs : mnFltrs.getFilters()) {
+//				listFields.add(chFltrs.getField());
+//			}
+//		}
+
+
+
+//		for (Map.Entry<String, String> entry : fieldWhere.entrySet()) {
+//			String tmpField = "{\"logic\":\"and\",\"filters\":[{\"field\":\"<fieldName>\",\"operator\":\"\",\"value\":\"\"}]}";
+//
+//			if (!listFields.contains(entry.getKey()))
+//			{
+//
+//				String tmpField2 = tmpField.replace("<fieldName>", entry.getKey());
+//
+//				gFilters gltrs = gson.fromJson( tmpField2, gFilters.class);
+//
+//				parentFltrs.add(gltrs);
+//			}
+//
+//
+//		}
+
+
+//		if (parentFltrs != null )
+//		{
+//
+//			// parentFilters loop
+//			for (gFilters mnFltrs : parentFltrs) {
+//				String whereChild = "";
+//				String childLogic = mnFltrs.getLogic();
+//
+//					// childFilters loop
+//					for (gFilter chFltrs : mnFltrs.getFilters()) {
+//
+//							String fieldName = chFltrs.getField();
+//							String fieldMap = null;
+////							FieldFilter ff = null;
+//							Collection<FieldFilter> ffs = fieldFilters.get(fieldName);;
+//							String strCondition = "";
+//							Paths myPath = Paths.Kendo;
+//
+////							if (btnSearch)
+////							{
+//
+//								strCondition = "";
+//								if (ffs.size() > 1) {
+//									for (FieldFilter ff : ffs) {
+//										fieldMap = ff.getType();
+//										if (fieldWhere.size() > 0)
+//										{
+//											if (fieldWhere.get(fieldName) != null)
+//											{
+//												if ( ! "".equals(strCondition)) {
+//													strCondition = strCondition + " and ";
+//												}
+//												strCondition = strCondition + " ( " + fieldWhere.get(fieldName) + " ) ";
+//												myPath = Paths.Manual;
+//											}
+//										}
+//
+//									}
+//
+//								}
+//
+////							}
+//
+//
+//							if (strCondition.equals(""))
+//							{
+//								if (listColumns.contains(fieldName.toLowerCase()))
+//								{
+//									fieldMap = dataTypes.get(fieldName);
+//									myPath = Paths.Kendo;
+//								}
+//							}
+//
+//							String myOpr = getOperator(chFltrs.getOperator());
+//							String myVal = chFltrs.getValue();
+//							logger.info("myOpr : " + myOpr + ", myVal : " + myVal + ", parentLogic : " + parentLogic + ", myPath : " + myPath );
+//
+//							if (myPath == Paths.Kendo)  // strCondition.equals("")
+//							{
+//
+//								if (fieldMap == null)
+//								{
+//									if (dataTypes.get(fieldMap) !=  null)
+//									{ // this block can be removed after verifying getEntryTimeHHmm in Calendar
+//										fieldName = fieldMap;
+//										// get fieldMap using field alias
+//										fieldMap = dataTypes.get(fieldName);
+//									}
+//								}
+//
+//								logger.info("myOpr : " + myOpr + ", myVal : " + myVal + ", fieldMap : " + fieldMap  );
+//
+//								if (myOpr == null)
+//								{ // this block for starts with, contains, end with, not equal to, etc,
+//									if (fieldMap != null)
+//									{
+//										switch (fieldMap) {
+//										case "string":
+//											strCondition = likes.get(chFltrs.getOperator()).replace("<value>", myVal);
+//											break;
+//										case "integer":
+//										case "date":
+//										case "int":
+//										case "bigdecimal":
+//											myOpr = dateRange.get(chFltrs.getOperator());
+//											break;
+//										case "bool":
+//											if (myVal.equals("true"))
+//												strCondition = myOpr + "'t'";
+//											else if (myVal.equals("false"))
+//												strCondition = myOpr + "'f'";
+//											break;
+//										}
+//									}
+//								}
+//
+//
+//								logger.info("strCondition : " + strCondition  + ", myOpr : " + myOpr  + ", myVal : " + myVal);
+//
+//
+//								if (strCondition.equals("") && fieldMap != null && myOpr != null)
+//								{
+//									// it is also expecting myOpr != null and myVal != null
+//
+//									switch (fieldMap) {
+//									case "string":
+//										//if (strCondition ! equals "")
+//										strCondition = myOpr + Q + myVal + Q;
+//										break;
+//									case "integer":
+//									case "int":
+//									case "bigdecimal":
+//										strCondition = myOpr + myVal;
+//										break;
+//									case "date":
+//
+//									if (myVal.contains("GMT"))
+//										{
+//											//System.out.println(" timestamp " + myVal.substring(0, 25));
+//											Date tmpDt = null;
+//
+//											try {
+//												tmpDt = Cons.MMMddyyyyHHmmss.parse(myVal.substring(4, 25));
+//											} catch (ParseException e) {
+//												e.printStackTrace();
+//											}
+//
+//											myVal = tmpDt.toString();
+//										}
+//											strCondition = myOpr + Q + myVal + Q;
+//										break;
+//
+//									} // switch
+//
+//								}
+//
+//								logger.info("strCondition : " + strCondition  + ", myVal : " + myVal  );
+//
+//							} // Paths.Kendo
+//
+//
+//							if (! strCondition.equals("")) {
+//
+//								String alias = "s";
+//
+//								if (ffs.size() > 1) {
+//
+//									for (FieldFilter ff : ffs) {
+//
+//										if (! ff.getAlias().equals(""))
+//										{ 	// it should be at the bottom of the block
+//											// bcoz it is depending to ! strCondition.equals("")
+//											// which cannot be determined early.
+//
+//											joinTables.add(" " + ff.getJoinTable() + " " + ff.getAlias());
+//											joinWheres.add(" " + ff.getJoinWhere() + " ");
+//											alias = ff.getAlias();
+//										}
+//
+//									}
+//
+//								}
+//
+//
+//								if (myPath == Paths.Kendo)
+//									strCondition = " ( " + alias + "." + fieldName + " " + strCondition + " ) ";
+//
+//
+//
+//								if (whereChild.equals(""))
+//									whereChild = strCondition;
+//								else {
+//									if (childLogic.equals("or"))
+//										whereChild = " ( " + whereChild + " " + childLogic + "   " + strCondition
+//												+ "  ) ";
+//									else
+//										whereChild = "   " + whereChild + " " + childLogic + "   " + strCondition
+//												+ "    ";
+//								}
+//
+//								logger.info("strCondition : " + strCondition  );
+//
+//								logger.info("whereChild : " + whereChild);
+//
+//							}
+//
+//
+//
+//					} // childLogic != null
+//
+//
+//					if (parentLogic == null) {
+//						whereParent = whereChild;
+//						break;
+//					} else {
+//						if (! whereChild.equals("") )
+//						{
+//							if (whereParent.equals(""))
+//								whereParent = whereChild;
+//							else {
+//								if (parentLogic.equals("or"))
+//									whereParent = " ( " + whereParent + " " + parentLogic + "   " + whereChild + "   )";
+//								else
+//									whereParent = "   " + whereParent + " " + parentLogic + "   " + whereChild + "   ";
+//							}
+//
+//						}
+//					}
+//
+//					logger.info("parentLogic : " + parentLogic);
+//
+//			} // mnFltrs loop
+//
+//		}
+
+		//if (whereParent ! quals "")
+		//	whereParent = " where "  + whereParent;
+//		logger.info("whereParent  : " + whereParent);
+
+
+
+//	public static <T> T castMyFilter(String str, Class<?> kls) {
+//		Gson gson = Common.myGson();
+//		T t = (T) gson.fromJson(str,kls);
+//		return t;
+//	}
+
+
+//		gFilters rgFilters = null;
+//
+//		try {
+//			rgFilters = gson.fromJson(str, gFilters.class);
+//		} catch (JsonSyntaxException e) {
+//			e.printStackTrace();
+//		}
+//
+//		gFilterPtr rgFilterPtr = null;
+//
+//		try {
+//			rgFilterPtr = gson.fromJson(str, gFilterPtr.class);
+//		} catch (JsonSyntaxException e) {
+//			e.printStackTrace();
+//		}
+
+
+
+//		gListArrayPtr  rgListArrayPtr  = null;
+//
+//		try {
+//			rgListArrayPtr  = gson.fromJson(str, gListArrayPtr .class);
+//		} catch (JsonSyntaxException e) {
+//			e.printStackTrace();
+//		}
+
+
+
+//		gFilterPtr cfPtr = null;
+//
+//		try {
+//			cfPtr = gson.fromJson(str, gFilterPtr.class);
+//			if (cfPtr.getFilters() != null) {
+//				String strCfPtr = gson.toJson(cfPtr.getFilters());
+// 				if (cfPtr.getFilters().get(0).getLogic() != null) {
+//					for (gFilters myFilter : cfPtr.getFilters()) {
+//						if (myFilter.getLogic() != null) {
+//							retVal = processFilters(level + 1, myFilter.getLogic(), gson.toJson(myFilter)).whereclause;
+//							logger.info("(2) " + retVal);
+//							sb.append(retVal);
+//						}
+//					}
+//				}
+//			}
+//
+//		} catch (JsonSyntaxException e) {
+//		}
+
+//			retVal = mygFilter.toString();
+
+//			if (sb.length() > 0) {
+//				sb.append(" <tab> " + logic + " -- ");
+//			} else {
+//				sb.append(" <tab> ++ ");
+//			}
+
+
+
+
+
+/*
+ *
+ *
+ * class gFilterPtrRoot {
+ *
+ * private int skip;
+ *
+ * private int pageSize;
+ *
+ * private List<gSort> sort;
+ *
+ * private gFilterPtr filter;
+ *
+ *
+ * public gFilterPtr getFilter() { return filter; }
+ *
+ * public void setFilter(gFilterPtr filter) { this.filter = filter; }
+ *
+ * public int getSkip() { return skip; }
+ *
+ * public void setSkip(int skip) { this.skip = skip; }
+ *
+ * public int getPageSize() { return pageSize; }
+ *
+ * public void setPageSize(int pageSize) { this.pageSize = pageSize; }
+ *
+ * public List<gSort> getSort() { return sort; }
+ *
+ * public void setSort(List<gSort> sort) { this.sort = sort; }
+ *
+ *
+ * }
+ *
+ * class gFiltersRoot {
+ *
+ * private int skip;
+ *
+ * private int pageSize;
+ *
+ * private List<gSort> sort;
+ *
+ * private gFilters filter;
+ *
+ * public gFilters getFilter() { return filter; }
+ *
+ * public void setFilter(gFilters filter) { this.filter = filter; }
+ *
+ * public int getSkip() { return skip; }
+ *
+ * public void setSkip(int skip) { this.skip = skip; }
+ *
+ * public int getPageSize() { return pageSize; }
+ *
+ * public void setPageSize(int pageSize) { this.pageSize = pageSize; }
+ *
+ * public List<gSort> getSort() { return sort; }
+ *
+ * public void setSort(List<gSort> sort) { this.sort = sort; }
+ *
+ * }
+ *
+ *
+ */
+
+
+
+// String mFilter =
+// "
+// {\"take\":15,\"skip\":0,\"page\":1,\"pageSize\":15,\"sort\":[{\"field\":\"entryTime\",\"dir\":\"desc\"}],\"filter\":{\"logic\":\"and\",\"filters\":[{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"1\"}]}}
+// ";
+// "
+// {\"take\":15,\"skip\":0,\"page\":1,\"pageSize\":15,\"sort\":[{\"field\":\"entryTime\",\"dir\":\"desc\"}],\"filter\":{\"logic\":\"and\",\"filters\":[{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"1\"},{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"2\"}]}}
+// " ;
+// "
+// {\"take\":15,\"skip\":0,\"page\":1,\"pageSize\":15,\"sort\":[{\"field\":\"entryTime\",\"dir\":\"desc\"}],\"filter\":{\"logic\":\"and\",\"filters\":[{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"1\"},{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"2\"},{\"field\":\"entryDate\",\"operator\":\"eq\",\"value\":\"2015-09-30T16:00:00.000Z\"}]}}
+// " ;
+// "
+// {\"take\":15,\"skip\":0,\"page\":1,\"pageSize\":15,\"sort\":[{\"field\":\"entryTime\",\"dir\":\"desc\"}],\"filter\":{\"logic\":\"and\",\"filters\":[{\"field\":\"entryDate\",\"operator\":\"eq\",\"value\":\"2015-09-30T16:00:00.000Z\"},{\"logic\":\"or\",\"filters\":[{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"1\"},{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"2\"}]}]}}
+// ";
+// "
+// {\"take\":15,\"skip\":0,\"page\":1,\"pageSize\":15,\"sort\":[{\"field\":\"entryTime\",\"dir\":\"desc\"}],\"filter\":{\"logic\":\"and\",\"filters\":[{\"logic\":\"or\",\"filters\":[{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"1\"},{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"2\"}]},{\"logic\":\"or\",\"filters\":[{\"field\":\"entryDate\",\"operator\":\"eq\",\"value\":\"2015-09-30T16:00:00.000Z\"},{\"field\":\"entryDate\",\"operator\":\"eq\",\"value\":\"2015-10-14T16:00:00.000Z\"}]}]}}
+// ";
+// "
+// {\"take\":15,\"skip\":0,\"page\":1,\"pageSize\":15,\"sort\":[{\"field\":\"entryTime\",\"dir\":\"desc\"}],\"filter\":{\"logic\":\"and\",\"filters\":[{\"logic\":\"or\",\"filters\":[{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"1\"},{\"field\":\"entryTimeHHmm\",\"operator\":\"eq\",\"value\":\"2\"}]},{\"logic\":\"or\",\"filters\":[{\"field\":\"entryDate\",\"operator\":\"eq\",\"value\":\"2015-09-30T16:00:00.000Z\"},{\"field\":\"entryDate\",\"operator\":\"eq\",\"value\":\"2015-10-14T16:00:00.000Z\"}]},{\"logic\":\"and\",\"filters\":[{\"field\":\"id\",\"operator\":\"startswith\",\"value\":\"7580\"},{\"field\":\"id\",\"operator\":\"endswith\",\"value\":\"7583\"}]}]}}
+// " ;
+
+
+
+
+
+//		retVal = "\n <tab> ( " +
+//				sb.toString() +
+//				"\n <tab> ) ";
+//		retVal = retVal.replaceAll("<tab>", tab);
+
+
+
+//		gwhere.setWhereclause(sb.toString());
+//		return gwhere;
+
+//							fields.add(mygFilter.getField());
+//
+//							retVal = mygFilter.toString();
+//
+//							if (sb.length() > 0) {
+//								sb
+//										.append("\n <tab> \t ")
+//										.append(logic)
+//										.append(" ");
+//							} else {
+//								sb.append("\n <tab> \t ");
+//							}
+//
+//							String fieldName = mygFilter.getField();
+//							Collection<FieldFilter> ffs = fieldFilters.get(fieldName);
+//							String myDataType = dataTypes.get(fieldName);
+//							String myOpr = getOperator(mygFilter.getOperator());
+//							String myVal = mygFilter.getValue();
+//
+//							logger.info("(1) " + fieldName + " " + myOpr + " " + myVal);
+//
+//							String alias = "s";
+//
+//							for (FieldFilter ff : checkIsEmpty (ffs)) {
+//
+//								if (! ff.getAlias().equals(""))
+//								{
+//									joinTables.add(" " + ff.getJoinTable() + " " + ff.getAlias());
+//									joinWheres.add(" " + ff.getJoinWhere() + " ");
+//									alias = ff.getAlias();
+//								}
+//
+//							}
+//
+//							String fieldOprVal = whereClause(mygFilter, alias);
+//
+//							sb.append(fieldOprVal);
+
+
+
+
+//						sb.append(retVal);
+//					}
+//					else if ( obj instanceof  gFilter ) {
+//						gFilter mygFilter = (gFilter) obj;
+//						if (mygFilter.getField() != null) {
+//
+//
+//						}
+//
+//					}
+
+//					String strCfilters = gson.toJson(obj);
+//					gFilters  myFilter = gson.fromJson(strCfilters, gFilters.class);
+
+//					if ( myFilter.getFilters() != null) {
+//						gFilterPtr myFilter = (gFilterPtr) obj;

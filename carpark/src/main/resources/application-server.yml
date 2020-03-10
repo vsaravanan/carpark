@@ -1,0 +1,52 @@
+server:
+  port: 10002
+servlet:
+  context-path: /carpark
+
+#security.basic.enabled: false
+#management.security.enabled: false
+
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5556/carpark?currentSchema=carpark
+    username: "ENC(bvicWc+JqSirmev1S3UUWw==)"
+    password: "ENC(W8eX4cwMftW5oB/GNOP1CUbNCzfNjKOr)"
+    initialization-mode: never
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    dialect: org.hibernate.dialect.PostgreSQLDialect
+    packages-to-scan: conti.ies.carpark.model
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        show-sql: true
+        temp:
+          use_jdbc_metadata_defaults: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+
+security:
+  password:
+    algorithm: PBEWITHMD5ANDDES
+
+dirLog: logs/carparklog
+
+logging:
+  path: ${dirLog}/
+  file: ${dirLog}/carpark-${server.port}.log
+  pattern.console: "%-5level | %logger{36}.%M - %msg%n"
+#  pattern.file: "%d{yyyy-MM-dd HH:mm:ss} | [%thread] | %-5level | %logger{36}.%M - %msg%n"
+  pattern.file: "%logger{36}.%M - %msg%n"
+  file.max-size: 1MB
+  file.max-history: 1
+  level:
+    root: info
+    org.hibernate.SQL: debug
+#    org.hibernate.type: trace
+    conti.ies.carpark: debug

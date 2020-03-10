@@ -22,3 +22,4 @@ zips
 /ies/dev/google-play-services_lib
 /bnp/dev/cp2a/cp2a/activemq_saravan.bat - Shortcut.lnk
 myDb
+/src/main/resources/db.properties

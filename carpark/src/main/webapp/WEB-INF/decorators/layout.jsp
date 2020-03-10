@@ -24,12 +24,12 @@
     	<script src="${root}js/jszip.min.js" ></script>
 		<script src="${root}js/bootstrap.js" ></script>
 
-		<link href="${root}/styles/kendo.common.min.css" rel="stylesheet" />
-		<link href="${root}/styles/kendo.rtl.css" rel="stylesheet" />
-		<link href="${root}/styles/kendo.moonlight.css" rel="stylesheet" />
-		<link href="${root}/styles/kendo.dataviz.min.css" rel="stylesheet" />
-		<link href="${root}/styles/kendo.dataviz.default.min.css" rel="stylesheet" />
-		<link href="${root}/css/util.css" rel="stylesheet" />
+		<link href="${root}styles/kendo.common.min.css" rel="stylesheet" />
+		<link href="${root}styles/kendo.rtl.css" rel="stylesheet" />
+		<link href="${root}styles/kendo.moonlight.css" rel="stylesheet" />
+		<link href="${root}styles/kendo.dataviz.min.css" rel="stylesheet" />
+		<link href="${root}styles/kendo.dataviz.default.min.css" rel="stylesheet" />
+		<link href="${root}css/util.css" rel="stylesheet" />
 
 
 	<script src="${root}js/kendo.web.min.js"></script>

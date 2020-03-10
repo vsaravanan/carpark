@@ -16,23 +16,6 @@ public class GlobalDefaultExceptionHandler   {
 
 	private final Logger logger = LoggerFactory.getLogger(GlobalDefaultExceptionHandler.class);
 
-
-//	@ExceptionHandler(value = DataIntegrityViolationException.class)
-//	public ModelAndView DataIntegrityViolationExceptionHandler(HttpServletRequest req, DataIntegrityViolationException e) throws DataIntegrityViolationException {
-//
-//		logger.error("[URL] : {}", req.getRequestURL(), e);
-//
-//		ModelAndView mav = new ModelAndView();
-//		mav.addObject("datetime", new Date());
-//		mav.addObject("type", "DataIntegrity");
-//	    mav.addObject("url",  req.getRequestURL());
-//		mav.addObject("exception", e);
-//		mav.setViewName(DEFAULT_ERROR_VIEW);
-//		return mav;
-//	}
-
-
-
 	@ExceptionHandler(value = Exception.class)
 	public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
 

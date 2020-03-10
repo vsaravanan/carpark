@@ -136,17 +136,17 @@ $(function() {
 												data-href="https://youtu.be/xSAhT-a4xzc"
 												data-alt="download/showVideo/1_LoginPage.mp4"
 
-										>Introduction</button>
+										>Intro</button>
 
 									<button id="describeMe_openReservation" type="button" class="btn btn-warning js-newWindow"
 												data-href="https://youtu.be/7Mt74Fu3wuI"
 												data-alt="download/showVideo/2_CarparkReservation.mp4"
-										>Open for Reservation</button>
+										>Create Slot</button>
 
 										<button id="describeMe_reservationParking" type="button" class="btn btn-warning js-newWindow"
 												data-href="https://youtu.be/M5mmDt4uqxs"
 												data-alt="download/showVideo/3_Parking.mp4"
-										>Reserve or Park</button>
+										>Reserve / Park</button>
 
 
 									</div>
