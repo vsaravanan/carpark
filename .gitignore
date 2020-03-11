@@ -17,3 +17,6 @@ zips
 /carpark/logs
 /carpark/out
 /carpark/lib
+/carpark/file
+/src/main/resources/db.properties
+/carpark/exploded
