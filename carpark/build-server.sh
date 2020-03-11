@@ -1,5 +1,5 @@
 git pull
-rm -rf /opt/tumcat/latest/logs/* ./logs/carpark*.log
+rm -rf /opt/carpark/logs/*
 mvn  -P server clean install -T 1C
 
 
