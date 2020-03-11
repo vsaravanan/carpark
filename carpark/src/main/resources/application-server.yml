@@ -35,7 +35,7 @@ security:
   password:
     algorithm: PBEWITHMD5ANDDES
 
-dirLog: logs/carparklog
+dirLog: /opt/tumcat/latest/webapps/logs/carparklog
 
 logging:
   path: ${dirLog}/
