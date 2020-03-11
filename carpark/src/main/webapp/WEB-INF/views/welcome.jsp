@@ -8,6 +8,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Welcome page</title>
 	<spring:url	 value="/"		var="root"	 />		
+	<spring:url	 value="http://localhost:10003"		var="carparkVideos"	 />
 </head>
 <body>
 
@@ -17,7 +18,7 @@
 			
 					<button id="describeMe" type="button" class="btn btn-warning js-newWindow" 
 						data-href="https://www.youtube.com/embed/-fkJBQu4ImI" 
-						data-alt="${root}download/showVideo/CarparkWebApplication2SpringSecurity.mp4"
+						data-alt="${carparkVideos}/CarparkWebApplication2SpringSecurity.mp4"
 						>Read me on Spring Security</button>
 			<p>														
 				<a href="<c:url value="/login?logout" />">Logout</a>

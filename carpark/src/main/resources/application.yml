@@ -16,7 +16,7 @@ spring:
     name: carpark
   profiles:
     # MVS server
-    active: server
+    active: dev
   mvc:
     view:
       prefix: "/WEB-INF/views/"

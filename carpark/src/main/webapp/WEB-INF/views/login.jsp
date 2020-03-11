@@ -4,6 +4,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 	<head>
+	<spring:url	 value="http://localhost:10003"		var="carparkVideos"	 />
+
 		<title>Login page</title>
 <style>
 
@@ -109,7 +111,7 @@ $(function() {
 
 										<div class="span8">Install Android demo app into your mobile to test carpark reservation </div>
 										<div class="span4" style='height: 72px; width: 72px;'>
-											<a href="file/SmartParkingApp.apk"> 
+											<a href="${carparkVideos}/SmartParkingApp.apk">
 											<img src="img/smartcarpark.png" class="img-rounded" 
 											style='height: 50%; width: 50%; object-fit: contain'>
 											</a>
@@ -120,7 +122,7 @@ $(function() {
 
 										<button id="describeMe" type="button" class="btn btn-warning js-newWindow" 
 											data-href="https://www.youtube.com/embed/24XRDBn-0XE" 
-											data-alt="download/showVideo/CarparkWebApplication1LoginPage.mp4"
+											data-alt="${carparkVideos}/CarparkWebApplication1LoginPage.mp4"
 											>Read Me</button>
 
 										<button type="button" class="btn btn-warning"
@@ -134,18 +136,18 @@ $(function() {
 
 										<button id="describeMe_loginPage" type="button" class="btn btn-warning js-newWindow"
 												data-href="https://youtu.be/xSAhT-a4xzc"
-												data-alt="download/showVideo/1_LoginPage.mp4"
+												data-alt="${carparkVideos}/1_LoginPage.mp4"
 
 										>Intro</button>
 
 									<button id="describeMe_openReservation" type="button" class="btn btn-warning js-newWindow"
 												data-href="https://youtu.be/7Mt74Fu3wuI"
-												data-alt="download/showVideo/2_CarparkReservation.mp4"
+												data-alt="${carparkVideos}/2_CarparkReservation.mp4"
 										>Create Slot</button>
 
 										<button id="describeMe_reservationParking" type="button" class="btn btn-warning js-newWindow"
 												data-href="https://youtu.be/M5mmDt4uqxs"
-												data-alt="download/showVideo/3_Parking.mp4"
+												data-alt="${carparkVideos}/3_Parking.mp4"
 										>Reserve / Park</button>
 
 

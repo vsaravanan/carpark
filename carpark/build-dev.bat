@@ -1,5 +1,5 @@
 cd /d .
 del /s /q .\logs\carpark*.log
-mvn  -P local clean war:exploded install -T 1C
+mvn  -P dev clean install -T 1C
 
 

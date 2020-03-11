@@ -240,7 +240,7 @@
 	</dependencies>
 	<profiles>
 		<profile>
-			<id>local</id>
+			<id>dev</id>
 				<build>
 					<finalName>${project.name}</finalName>
 					<resources>
@@ -314,7 +314,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-war-plugin</artifactId>
-						<version>2.3</version>
+
 						<configuration>
 							<webappDirectory>/opt/carpark/exploded</webappDirectory>
 						</configuration>
