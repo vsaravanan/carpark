@@ -14,9 +14,9 @@ spring:
   #   MVS none or servlet
   application:
     name: carpark
-  profiles:
+#  profiles:
     # MVS server
-    active: dev
+#    active: dev
   mvc:
     view:
       prefix: "/WEB-INF/views/"
