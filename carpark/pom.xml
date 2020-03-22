@@ -17,9 +17,9 @@
 
 	<properties>
 		<activeProfile>server</activeProfile>
-		<java.version>13</java.version>
+		<java.version>14</java.version>
 <!--		<spring-boot-verion>2.2.4.RELEASE</spring-boot-verion>-->
-
+		<spring-boot-admin.version>2.2.2</spring-boot-admin.version>
 	</properties>
 
 	<dependencies>
@@ -229,7 +229,10 @@
 			<version>3.0.2</version>
 		</dependency>
 
-
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+		</dependency>
 <!--
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
@@ -238,6 +241,18 @@
 		</dependency>
 -->
 	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-dependencies</artifactId>
+				<version>${spring-boot-admin.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<profiles>
 		<profile>
 			<id>dev</id>

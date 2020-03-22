@@ -1,0 +1,108 @@
+def notifyFailed(appVer, jiraId, lastCommitMessage, reason, error) {
+    currentBuild.result = 'FAILED'
+    def jiraPath = "https://jira.global.saravan-js.com/browse"
+    echo " MVS Email Failure"
+    String recipient = 'saravanan.resume@gmail.com'
+    String fromAddress = 'saravanan.resume@gmail.com'
+    String jiradetails = '';
+
+    if ("${jiraId}".length() > 0 )
+        jiradetails = "${jiraPath}/${jiraId}"  
+
+    mail subject: "${reason} at ${appVer} ",
+            body: "${reason} \n Version : ${appVer} \n Jenkins : ${BUILD_URL} \n Jira : ${jiradetails} \n " +
+            " BitBucket : ${gitUrl} \n Commit Message : ${lastCommitMessage} \n\n " + 
+            error.toString() + " \n\n " + error.printStackTrace(),
+                to: recipient,
+            replyTo: fromAddress,
+            from: fromAddress
+    echo " MVS Email Failure ended"
+
+    throw error
+}	
+
+node {
+
+   def mvnHome
+   def repoName =  "carpark"
+   def serviceName =  "carpark"
+   def logfile = "/opt/carpark/logs/carpark-jenkins.log"
+   def workspace = "/data/carparkrepo/carpark";
+   def deploypath = "${workspace}/target"
+
+
+   stage('Checkout') {
+
+		try
+		{
+
+            echo "MVS pwd "
+            sh " pwd "
+            dir ("${workspace}") {
+
+                sh "git pull"
+
+                gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+
+                echo "MVS git checkout "
+
+                echo "MVS gitCommit : ${gitCommit}"
+
+                gitVersion = sh(returnStdout: true, script: 'git rev-list HEAD --count').toString().trim()
+                echo "gitVersion: ${gitVersion}"
+                lastCommitMessage = sh(returnStdout: true, script: 'git log -1 --format="%s" ').toString().trim()
+                appVer = "${repoName}.${BUILD_ID}.git-${gitVersion}"
+                lastCommitMessage = sh(returnStdout: true, script: 'git log -1 --format="%s" | cut -f 2- -d " "').toString().trim()
+                echo "lastCommitMessage: ${lastCommitMessage} "
+
+                echo "appVer: ${appVer}" // carpark.45.git-29
+
+                echo "MVS Source is done"
+            }
+
+		} catch (Exception e) {
+            notifyFailed(appVer, jiraId, lastCommitMessage, "Source is failed ", e)
+        }
+
+   }
+
+    stage('Environment')
+    {
+        echo "MVS JAVA_HOME : ${JAVA_HOME}"
+        echo "MVS MAVEN_HOME : ${MAVEN_HOME}"
+		echo "MVS BUILD_ID : ${BUILD_ID}"                // 10
+		echo "MVS BUILD_URL : ${BUILD_URL}"              // http://localhost:8081/job/carpark/3/
+
+
+		echo "MVS JOB_NAME : ${JOB_NAME}"                // carpark
+		echo "MVS BUILD_TAG : ${BUILD_TAG}"              // jenkins-carpark-3
+		echo "MVS JENKINS_HOME : ${JENKINS_HOME}"        // /var/lib/jenkins
+		echo "MVS WORKSPACE : ${WORKSPACE}"              // /var/lib/jenkins/workspace/carpark
+
+
+
+    }
+
+
+
+
+    stage('Build')
+    {
+        
+        dir ("${workspace}") {
+            echo "MVS  build "
+            sh "sh ./build-server.sh"
+        }
+
+
+    }
+
+	stage('Email')
+    {
+        body = " job name : ${JOB_NAME} \n Version : ${appVer} \n Jenkins : ${BUILD_URL} \n  Commit Message : ${lastCommitMessage} "
+        emailext mimeType: 'text/html', body: body, subject: "Build is successful ${repoName}", to: 'saravanan.resume@gmail.com'
+    }
+
+
+
+}

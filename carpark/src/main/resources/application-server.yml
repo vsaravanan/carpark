@@ -3,8 +3,15 @@ server:
 servlet:
   context-path: /carpark
 
-#security.basic.enabled: false
-#management.security.enabled: false
+spring.application.name: carpark
+spring.boot.admin.client.url: http://localhost:10000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 
 spring:
   datasource:
