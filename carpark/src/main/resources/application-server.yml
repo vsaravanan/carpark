@@ -5,6 +5,7 @@ servlet:
 
 spring.application.name: carpark
 spring.boot.admin.client.url: http://localhost:10000
+management.security.enabled: false
 
 management:
   endpoints:

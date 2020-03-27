@@ -10,3 +10,6 @@ VALUES(27, NULL, '/swagger*/**');
 INSERT INTO userrole
 (roleid, roletype, accessto)
 VALUES(28, NULL, '/webjars/**');
+INSERT INTO userrole
+(roleid, roletype, accessto)
+VALUES(29, NULL, '/actuator/**');
