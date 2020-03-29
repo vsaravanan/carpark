@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 	<head>
-	<spring:url	 value="http://localhost:10003"		var="carparkVideos"	 />
+	<spring:url	 value="https://saravan-js.com:10003"		var="carparkVideos"	 />
 
 		<title>Login page</title>
 <style>

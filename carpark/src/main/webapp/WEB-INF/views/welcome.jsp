@@ -8,7 +8,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Welcome page</title>
 	<spring:url	 value="/"		var="root"	 />		
-	<spring:url	 value="http://localhost:10003"		var="carparkVideos"	 />
+	<spring:url	 value="https://saravan-js.com:10003"		var="carparkVideos"	 />
 </head>
 <body>
 
