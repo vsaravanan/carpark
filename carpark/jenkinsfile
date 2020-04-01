@@ -27,7 +27,7 @@ node {
    def repoName =  "carpark"
    def serviceName =  "carpark"
    def logfile = "/opt/carpark/logs/carpark-jenkins.log"
-   def workspace = "/data/carparkrepo/carpark";
+   def workspace = "/data/carpark/carpark";
    def deploypath = "${workspace}/target"
 
 
