@@ -3,9 +3,17 @@ server:
 servlet:
   context-path: /carpark
 
+domain-name: http://saravan-js.com
 spring.application.name: carpark
-spring.boot.admin.client.url: http://localhost:10000
+spring.boot.admin.client.url: ${domain-name}:10000
 management.security.enabled: false
+
+app-path: ${domain-name}:${server.port}
+
+spring.boot.admin.client.instance.management-url: ${app-path}
+spring.boot.admin.client.instance.management-base-url: ${app-path}
+spring.boot.admin.client.instance.service-url: ${app-path}
+spring.boot.admin.client.instance.health-url: ${app-path}/actuator/health
 
 management:
   endpoints:
@@ -17,7 +25,7 @@ management:
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5555/carpark?currentSchema=carpark
+    url: jdbc:postgresql://saravan-js.com:5555/carpark?currentSchema=carpark
     username: "ENC(bvicWc+JqSirmev1S3UUWw==)"
     password: "ENC(W8eX4cwMftW5oB/GNOP1CUbNCzfNjKOr)"
     initialization-mode: never
