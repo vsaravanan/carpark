@@ -25,7 +25,7 @@ management:
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://saravan-js.com:5555/carpark?currentSchema=carpark
+    url: jdbc:postgresql://localhost:5555/carpark?currentSchema=carpark
     username: "ENC(bvicWc+JqSirmev1S3UUWw==)"
     password: "ENC(W8eX4cwMftW5oB/GNOP1CUbNCzfNjKOr)"
     initialization-mode: never
