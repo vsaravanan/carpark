@@ -5,7 +5,7 @@ servlet:
 
 domain-name: http://saravan-js.com
 spring.application.name: carpark
-spring.boot.admin.client.url: https://saravan-js.com:10000
+spring.boot.admin.client.url: http://localhost:10000
 management.security.enabled: false
 
 #app-path: ${domain-name}:${server.port}
