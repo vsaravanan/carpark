@@ -8,12 +8,12 @@ spring.application.name: carpark
 spring.boot.admin.client.url: https://saravan-js.com:10000
 management.security.enabled: false
 
-app-path: ${domain-name}:${server.port}
-
-spring.boot.admin.client.instance.management-url: https://saravan-js.com:10002
-spring.boot.admin.client.instance.management-base-url: https://saravan-js.com:10002
-spring.boot.admin.client.instance.service-url: https://saravan-js.com:10002
-spring.boot.admin.client.instance.health-url: https://saravan-js.com:10002/actuator/health
+#app-path: ${domain-name}:${server.port}
+#
+#spring.boot.admin.client.instance.management-url: https://saravan-js.com:10002
+#spring.boot.admin.client.instance.management-base-url: https://saravan-js.com:10002
+#spring.boot.admin.client.instance.service-url: https://saravan-js.com:10002
+#spring.boot.admin.client.instance.health-url: https://saravan-js.com:10002/actuator/health
 
 management:
   endpoints:
