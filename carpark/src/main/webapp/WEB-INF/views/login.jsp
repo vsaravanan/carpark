@@ -122,7 +122,7 @@ $(function() {
 
 										<button id="describeMe" type="button" class="btn btn-warning js-newWindow" 
 											data-href="https://www.youtube.com/embed/24XRDBn-0XE" 
-											data-alt="${carparkVideos}/CarparkWebApplication1LoginPage.mp4"
+											data-alt="download/showVideo/CarparkWebApplication1LoginPage.mp4"
 											>Read Me</button>
 
 										<button type="button" class="btn btn-warning"
