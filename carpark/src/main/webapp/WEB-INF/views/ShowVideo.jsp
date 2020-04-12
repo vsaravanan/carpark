@@ -25,8 +25,7 @@
     <div id="mainWrapper3"  >
 	    <video id="video1" width="640" height="267"  controls="controls"  autoplay="autoplay">
 	        <source src="${carparkVideos}/${videoName}.mp4" type="video/mp4" >
- 	 		<track label="English" kind="subtitles" srclang="en"
- 	 			 src="${carparkVideos}/${videoName}.srt" default >
+
 			<p>Your browser does not support the HTML5 video</p>  
 			       
 	    </video>
