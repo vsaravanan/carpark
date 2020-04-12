@@ -410,26 +410,26 @@ $(function() {
     
     window.isValidURL = isValidURL;    
 
-    $('[id^=describeMe]').click(function (e) {
-        //event.preventDefault();
-
-        var thisBtn = $(this);
-
-        var url =  thisBtn.data("alt"); 
-      
-        
-        //if (isValidURL(url) == false)
-        //	url =  thisBtn.data("alt"); 
-        
-   
-
-        //url =  url + "?&cc_load_policy=1&autoplay=1&rel=0";
-        var windowName = "_blank";
-        var windowSize = "location=yes, width=640, height=360, scrollbars=yes,status=yes";
-
-        window.open(url, windowName, windowSize);
-    });        
-    
+//    $('[id^=describeMe]').click(function (e) {
+//        //event.preventDefault();
+//
+//        var thisBtn = $(this);
+//
+//        var url =  thisBtn.data("alt");
+//
+//
+//        //if (isValidURL(url) == false)
+//        //	url =  thisBtn.data("alt");
+//
+//
+//
+//        //url =  url + "?&cc_load_policy=1&autoplay=1&rel=0";
+//        var windowName = "_blank";
+//        var windowSize = "location=yes, width=640, height=360, scrollbars=yes,status=yes";
+//
+//        window.open(url, windowName, windowSize);
+//    });
+//
     
     function onRequestEnd(e) {
 

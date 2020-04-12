@@ -6,6 +6,7 @@
 	<meta charset="UTF-8">
 	<title>Tutorial page</title>
 	<spring:url	 value="/"		var="root"	 />	
+	<spring:url	 value="https://saravan-js.com:10003"		var="carparkVideos"	 />
 
 	
     <link href="${root}css/bootstrap.css" rel="stylesheet" >	
@@ -23,9 +24,9 @@
 
     <div id="mainWrapper3"  >
 	    <video id="video1" width="640" height="267"  controls="controls"  autoplay="autoplay">
-	        <source src="${root}file/${videoName}.mp4" type="video/mp4" >
+	        <source src="${carparkVideos}/${videoName}.mp4" type="video/mp4" >
  	 		<track label="English" kind="subtitles" srclang="en"
- 	 			 src="${root}file/${videoName}.srt" default >
+ 	 			 src="${carparkVideos}/${videoName}.srt" default >
 			<p>Your browser does not support the HTML5 video</p>  
 			       
 	    </video>

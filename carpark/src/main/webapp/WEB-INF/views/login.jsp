@@ -136,7 +136,7 @@ $(function() {
 
 										<button id="describeMe_loginPage" type="button" class="btn btn-warning js-newWindow"
 												data-href="https://youtu.be/xSAhT-a4xzc"
-												data-alt="${carparkVideos}/1_LoginPage.mp4"
+												data-alt="download/showVideo/1_LoginPage.mp4"
 
 										>Intro</button>
 
