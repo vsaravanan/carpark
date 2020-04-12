@@ -18,7 +18,7 @@
 			
 					<button id="describeMe" type="button" class="btn btn-warning js-newWindow" 
 						data-href="https://www.youtube.com/embed/-fkJBQu4ImI" 
-						data-alt="${carparkVideos}/CarparkWebApplication2SpringSecurity.mp4"
+						data-alt="download/showVideo/CarparkWebApplication2SpringSecurity"
 						>Read me on Spring Security</button>
 			<p>														
 				<a href="<c:url value="/login?logout" />">Logout</a>
