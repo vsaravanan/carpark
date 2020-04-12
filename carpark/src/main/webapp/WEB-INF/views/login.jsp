@@ -19,32 +19,7 @@ button{
 <script>
 $(function() {
 
-	
-/*     $("#descrtrtribeMe").click(function(){
-    	var strWindowFeatures = "location=yes,height=360,width=640,scrollbars=yes,status=yes";
-    	var URL = "https://www.youtube.com/embed/24XRDBn-0XE?&cc_load_policy=1&autoplay=1&rel=0";
-    	var win = window.open(URL, "_blank", strWindowFeatures);
-    }); */
 
-/*     $("#describeMe").click(function (e) {
-        //event.preventDefault();
-
-        var thisBtn = $(this);
-
-        var url =  thisBtn.data("alt"); 
-      
-        
-        //if (isValidURL(url) == false)
-        //	url =  thisBtn.data("alt"); 
-        
-   
-
-        //url =  url + "?&cc_load_policy=1&autoplay=1&rel=0";
-        var windowName = "_blank";
-        var windowSize = "location=yes, width=640, height=360, scrollbars=yes,status=yes";
-
-        window.open(url, windowName, windowSize);
-    });    */ 
 
 });
 </script>
@@ -136,18 +111,18 @@ $(function() {
 
 										<button id="describeMe_loginPage" type="button" class="btn btn-warning js-newWindow"
 												data-href="https://youtu.be/xSAhT-a4xzc"
-												data-alt="download/showVideo/1_LoginPage.mp4"
+												data-alt="download/showVideo/1_LoginPage"
 
 										>Intro</button>
 
 									<button id="describeMe_openReservation" type="button" class="btn btn-warning js-newWindow"
 												data-href="https://youtu.be/7Mt74Fu3wuI"
-												data-alt="${carparkVideos}/2_CarparkReservation.mp4"
+												data-alt="download/showVideo/2_CarparkReservation"
 										>Create Slot</button>
 
 										<button id="describeMe_reservationParking" type="button" class="btn btn-warning js-newWindow"
 												data-href="https://youtu.be/M5mmDt4uqxs"
-												data-alt="${carparkVideos}/3_Parking.mp4"
+												data-alt="download/showVideo/3_Parking"
 										>Reserve / Park</button>
 
 
